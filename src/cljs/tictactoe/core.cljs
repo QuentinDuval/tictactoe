@@ -2,7 +2,8 @@
   (:require
     [reagent.core :as reagent :refer [atom]]
     [tictactoe.cell :as cell]
-    [tictactoe.panel :as panel])
+    [tictactoe.panel :as panel]
+    [tictactoe.utils :as utils])
   (:require-macros
     [reagent.ratom :refer [reaction]]
     ))
@@ -17,6 +18,14 @@
   (for [x (range board-size)
         y (range board-size)]
     [x y]))
+
+(def rows (partition 3 coordinates))
+(def cols (utils/transpose rows))
+(def diags
+  (list
+    (filter #(= (first %) (second %)) coordinates)
+    (filter #(= (dec board-size) (reduce + %)) coordinates)
+    ))
 
 
 ;; Game logic
