@@ -5,29 +5,30 @@
 ;; Constants
 
 (def board-size 3)
+
 (def coordinates
   (for [x (range board-size)
         y (range board-size)]
     [x y]))
 
-(def rows (partition 3 coordinates))
-(def cols (utils/transpose rows))
+(def empty-board
+  (into {}
+    (map (fn [c] [c :cell/empty]))
+    coordinates))
+
 (def diags
   [(filter #(= (first %) (second %)) coordinates)
    (filter #(= (dec board-size) (reduce + %)) coordinates)])
+
+(def rows (partition board-size coordinates))
+(def cols (utils/transpose rows))
 (def lines (concat rows cols diags))
 
 
 ;; Game logic
 
-(defn new-empty-board
-  []
-  (into {} (map (fn [c] [c :cell/empty])) coordinates))
-
-(defn new-game
-  "Instantiate a new game (empty board and reset player)"
-  []
-  [{:board (new-empty-board) :player :cell/cross}])
+(defn new-game []
+  [{:board empty-board :player :cell/cross}])
 
 (defn convert-cell
   "Convert the cell to the new player"
@@ -35,9 +36,7 @@
   (assoc board [x y] player))
 
 (defn next-player [current]
-  (case current
-    :cell/cross :cell/circle
-    :cell/circle :cell/cross))
+  (if (= :cell/cross current) :cell/circle :cell/cross))
 
 (defn winning-line?
   [board line]
