@@ -32,9 +32,10 @@
   [board player x y]
   (assoc board [x y] player))
 
-(defn next-player
-  [current]
-  (if (= current :cell/cross) :cell/circle :cell/cross))
+(defn next-player [current]
+  (case current
+    :cell/cross :cell/circle
+    :cell/circle :cell/cross))
 
 (defn on-move
   "Convert the cell to current player, switch player, look at win conditions"
@@ -48,7 +49,7 @@
 ;; Plugging to game state
 
 (defonce app-state (atom (new-game)))
-(defn on-move-event [x y]  (swap! app-state on-move x y))
+(defn on-move-event [x y] (swap! app-state on-move x y))
 
 
 ;; Rendering
@@ -61,10 +62,21 @@
         {:on-click #(on-move-event x y)} {}))
     ))
 
+(defn special-char
+  [str-code]
+  [:div {:dangerouslySetInnerHTML {:__html str-code}}])
+
+(defn top-button
+  [on-click txt]
+  [:button.help-button {:on-click on-click} txt])
+
 (defn tictactoe
   []
   [:div
-   [:h1 "Tic Tac Toe"]
+   [:div.scores
+    [top-button #(println "restart") (special-char "&#x21bb;")]
+    [:h1#title "Tic Tac Toe"]
+    [top-button #(println "back") (special-char "&larr;")]]
    (into
      [:svg.board
       {:view-box (str "0 0 " board-size " " board-size)
