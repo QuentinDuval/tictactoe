@@ -11,13 +11,10 @@
 
 (def board-size 3)
 
-(def cell-state?
-  #{:cell/empty :cell/cross :cell/circle})
-
 
 ;; Game logic
 
-(defn init-board
+(defn new-empty-board
   []
   (into {}
     (for [x (range board-size)
@@ -25,11 +22,13 @@
       [[x y] :cell/empty]
       )))
 
-(defonce app-state
-  (atom {:board (init-board)
-         :player :cell/cross}))
+(defn new-game
+  "Instantiate a new game (empty board and reset player)"
+  []
+  {:board (new-empty-board) :player :cell/cross})
 
-(defn play-move
+(defn convert-cell
+  "Convert the cell to the new player"
   [board player x y]
   (assoc board [x y] player))
 
@@ -38,15 +37,18 @@
   (if (= current :cell/cross) :cell/circle :cell/cross))
 
 (defn on-move
-  [app-state x y]
-  (-> app-state
-    (update-in [:board] play-move (:player app-state) x y)
+  "Convert the cell to current player, switch player, look at win conditions"
+  [game-state x y]
+  (-> game-state
+    (update-in [:board] convert-cell (:player game-state) x y)
     (update-in [:player] next-player)
     ))
 
-(defn on-move-event
-  [x y]
-  (swap! app-state on-move x y))
+
+;; Plugging to game state
+
+(defonce app-state (atom (new-game)))
+(defn on-move-event [x y]  (swap! app-state on-move x y))
 
 
 ;; Rendering
@@ -62,7 +64,7 @@
 (defn tictactoe
   []
   [:div
-   [:h1 "tic tac toe"]
+   [:h1 "Tic Tac Toe"]
    (into
      [:svg.board
       {:view-box (str "0 0 " board-size " " board-size)

@@ -1,6 +1,10 @@
 (ns tictactoe.cell)
 
 
+(def cell-type?
+  #{:cell/empty :cell/cross :cell/circle})
+
+
 (defmulti render-cell
   (fn [type x y options] type))
 
