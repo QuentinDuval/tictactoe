@@ -1,5 +1,8 @@
 (ns tictactoe.core
-  (:require [reagent.core :as reagent :refer [atom]]))
+  (:require
+    [reagent.core :as reagent :refer [atom]]
+    [tictactoe.cell :as cell]
+    ))
 
 (enable-console-print!)
 
@@ -54,35 +57,13 @@
 
 (defmethod render-cell :cell/empty
   [_ x y]
-  [:rect
-   {:x (+ 0.05 x) :width 0.9
-    :y (+ 0.05 y) :height 0.9
-    :fill "lightgrey"
-    :on-click #(on-move-event x y)}
-   ])
+  (cell/render-rect x y {:on-click #(on-move-event x y)}))
 
 (defmethod render-cell :cell/circle
-  [_ x y]
-  [:circle
-   {:cx (+ 0.5 x) :cy (+ 0.5 y)
-    :r 0.45 :fill "none"
-    :stroke-width 0.03
-    :stroke "green"}
-   ])
-
-(defn draw-cross-line
-  [[x y] [dx dy]]
-  [:line {:x1 x :y1 y
-          :x2 (+ x dx) :y2 (+ y dy)
-          :fill "none" :stroke-width 0.04 :stroke "red"}
-   ])
+  [_ x y] (cell/render-circle x y))
 
 (defmethod render-cell :cell/cross
-  [_ x y]
-  [:g
-   [draw-cross-line [(+ x 0.05) (+ y 0.05)] [0.9 0.9]]
-   [draw-cross-line [(+ x 0.05) (+ y 0.95)] [0.9 -0.9]]
-   ])
+  [_ x y] (cell/render-cross x y))
 
 (defn render-board-cell
   [app-state x y]
