@@ -48,25 +48,32 @@
     :cell/cross :cell/circle
     :cell/circle :cell/cross))
 
-(defn find-winning-line
-  "Indicates whether the move is move that made the player win"
+(defn winning-line?
+  [board line]
+  (let [owners (utils/get-all board line)]
+    (and
+      (not-any? #{:cell/empty} owners)
+      (= 1 (count (set owners)))
+      )))
+
+(defn game-over?
   [board]
-  (first
-    (for [line lines
-          :let [players (into #{} (utils/get-all board line))]
-          :when (= 1 (count players))
-          :when (not-any? #{:cell/empty} players)]
-      line)))
+  (some #(winning-line? board %) lines))
+
+(defn valid-move?
+  [board x y]
+  (and
+    (not (game-over? board))
+    (= :cell/empty (get board [x y]))
+    ))
 
 (defn on-move
   "Convert the cell to current player, switch player, look at win conditions"
   [game-state x y]
-  (let [{:keys [board player] :as current} (peek game-state)
-        new-board (convert-cell board player x y)]
+  (let [current (peek game-state)]
     (conj game-state
       (-> current
-        (assoc :board new-board)
-        (assoc :winner (find-winning-line new-board))
+        (update :board convert-cell (:player current) x y)
         (update :player next-player)
         ))))
 
@@ -91,11 +98,9 @@
 
 (defn render-board-cell
   [board x y]
-  (let [cell-state (get board [x y])]
-    (cell/render-cell cell-state x y
-      (if (= :cell/empty cell-state)
-        {:on-click #(on-move-event x y)} {}))
-    ))
+  (cell/render-cell (get board [x y]) x y
+    (if (valid-move? board x y)
+      {:on-click #(on-move-event x y)} {})))
 
 (defn render-board
   [board]
