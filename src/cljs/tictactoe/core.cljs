@@ -51,34 +51,26 @@
 
 ;; Rendering
 
-(defmulti render-cell
-  "Draw a rectangle cell on the screen"
-  (fn [type x y] type))
-
-(defmethod render-cell :cell/empty
-  [_ x y]
-  (cell/render-rect x y {:on-click #(on-move-event x y)}))
-
-(defmethod render-cell :cell/circle
-  [_ x y] (cell/render-circle x y))
-
-(defmethod render-cell :cell/cross
-  [_ x y] (cell/render-cross x y))
-
 (defn render-board-cell
   [app-state x y]
-  (render-cell
-    (get (:board app-state) [x y])
-    x y))
+  (let [cell-state (get (:board app-state) [x y])]
+    (cell/render-cell cell-state x y
+      (if (= :cell/empty cell-state)
+        {:on-click #(on-move-event x y)} {}))
+    ))
+
+(defn render-board
+  [board-size]
+  [:svg.board
+   {:view-box (str "0 0 " board-size " " board-size)
+    :style {:max-height "500px"}}])
 
 (defn tictactoe
   []
   [:div
    [:h1 "tic tac toe"]
    (into
-     [:svg.board
-      {:view-box (str "0 0 " board-size " " board-size)
-       :style {:max-height "500px"}}]
+     (render-board board-size)
      (for [x (range board-size)
            y (range board-size)]
        [render-board-cell @app-state x y]
