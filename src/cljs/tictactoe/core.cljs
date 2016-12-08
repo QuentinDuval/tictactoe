@@ -2,6 +2,7 @@
   (:require
     [reagent.core :as reagent :refer [atom]]
     [tictactoe.cell :as cell]
+    [tictactoe.panel :as panel]
     ))
 
 (enable-console-print!)
@@ -62,21 +63,12 @@
         {:on-click #(on-move-event x y)} {}))
     ))
 
-(defn special-char
-  [str-code]
-  [:div {:dangerouslySetInnerHTML {:__html str-code}}])
-
-(defn top-button
-  [on-click txt]
-  [:button.help-button {:on-click on-click} txt])
-
 (defn tictactoe
   []
   [:div
-   [:div.scores
-    [top-button #(println "restart") (special-char "&#x21bb;")]
-    [:h1#title "Tic Tac Toe"]
-    [top-button #(println "back") (special-char "&larr;")]]
+   (panel/render-top-panel
+     {:on-restart #(println "restart")
+      :on-undo #(println "undo")})
    (into
      [:svg.board
       {:view-box (str "0 0 " board-size " " board-size)
