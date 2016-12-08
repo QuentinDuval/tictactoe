@@ -98,6 +98,4 @@
 
 ;; Plug to reagent
 
-(reagent/render
-  [tictactoe]
-  (js/document.getElementById "app"))
+(reagent/render [tictactoe] (js/document.getElementById "app"))
