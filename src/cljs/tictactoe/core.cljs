@@ -13,17 +13,17 @@
 ;; Constants
 
 (def board-size 3)
+(def coordinates
+  (for [x (range board-size)
+        y (range board-size)]
+    [x y]))
 
 
 ;; Game logic
 
 (defn new-empty-board
   []
-  (into {}
-    (for [x (range board-size)
-          y (range board-size)]
-      [[x y] :cell/empty]
-      )))
+  (into {} (map (fn [c] [c :cell/empty])) coordinates))
 
 (defn new-game
   "Instantiate a new game (empty board and reset player)"
@@ -39,6 +39,12 @@
   (case current
     :cell/cross :cell/circle
     :cell/circle :cell/cross))
+
+(defn find-winner
+  "Indicates whether the move is move that made the player win"
+  [board]
+  nil)
+
 
 (defn on-move
   "Convert the cell to current player, switch player, look at win conditions"
@@ -83,10 +89,9 @@
     [:svg.board
      {:view-box (str "0 0 " board-size " " board-size)
       :style {:max-height "500px"}}]
-    (for [x (range board-size)
-          y (range board-size)]
-      [render-board-cell board x y]
-      )))
+    (for [[x y] coordinates]
+      [render-board-cell board x y])
+    ))
 
 (defn tictactoe
   []
