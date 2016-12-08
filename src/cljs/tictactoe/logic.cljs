@@ -30,15 +30,15 @@
 (defn new-game []
   [{:board empty-board :player :cell/cross}])
 
-(defn convert-cell
+(defn- convert-cell
   "Convert the cell to the new player"
   [board player x y]
   (assoc board [x y] player))
 
-(defn next-player [current]
+(defn- next-player [current]
   (if (= :cell/cross current) :cell/circle :cell/cross))
 
-(defn winning-line?
+(defn- winning-line?
   [board line]
   (let [owners (utils/get-all board line)]
     (and
@@ -50,23 +50,28 @@
   [board]
   (some #(winning-line? board %) lines))
 
-(defn is-empty-cell?
+(defn- is-empty-cell?
   [board x y]
   (= (get board [x y]) :cell/empty))
 
-(defn valid-move?
+(defn- valid-move?
   [board x y]
   (and (is-empty-cell? board x y) (not (game-over? board))))
 
+(defn- next-state
+  [current x y]
+  (-> current
+    (update :board convert-cell (:player current) x y)
+    (update :player next-player)
+    ))
+
 (defn on-move
-  "Convert the cell to current player, switch player, look at win conditions"
+  "On reception of the move command"
   [game-state x y]
   (let [current (peek game-state)]
-    (conj game-state
-      (-> current
-        (update :board convert-cell (:player current) x y)
-        (update :player next-player)
-        ))))
+    (if (valid-move? (:board current) x y)
+      (conj game-state (next-state current x y))
+      game-state)))
 
 (defn on-undo
   "Remove the last game if there is enough game played"

@@ -8,8 +8,9 @@
     [reagent.ratom :refer [reaction]]
     ))
 
-
-;; Plugging to game state
+;; --------------------------------------------------------
+;; Game state management
+;; --------------------------------------------------------
 
 (defonce app-state (atom (logic/new-game)))
 (def current-state (reaction (peek @app-state)))
@@ -18,16 +19,19 @@
 (defn on-restart-event [] (reset! app-state (logic/new-game)))
 (defn on-undo-event [] (swap! app-state logic/on-undo))
 
-
-;; Rendering
+;; --------------------------------------------------------
+;; Main rendering
+;; --------------------------------------------------------
 
 (defn render-board-cell
+  "Render a cell on the board"
   [board x y]
-  (cell/render-cell (get board [x y]) x y
-    (if (logic/valid-move? board x y)
-      {:on-click #(on-move-event x y)} {})))
+  (cell/render-cell
+    (get board [x y]) x y
+    {:on-click #(on-move-event x y)}))
 
 (defn render-board
+  "Render the board: pure component that only depends on inputs"
   [board]
   (into
     [:svg.board
@@ -38,6 +42,7 @@
     ))
 
 (defn tictactoe
+  "Main rendering entry: assemble the game logic, the view and control"
   []
   [:div
    (panel/render-top-panel {:on-restart on-restart-event :on-undo on-undo-event})
