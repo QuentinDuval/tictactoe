@@ -59,18 +59,14 @@
         {:on-click #(on-move-event x y)} {}))
     ))
 
-(defn render-board
-  [board-size]
-  [:svg.board
-   {:view-box (str "0 0 " board-size " " board-size)
-    :style {:max-height "500px"}}])
-
 (defn tictactoe
   []
   [:div
    [:h1 "tic tac toe"]
    (into
-     (render-board board-size)
+     [:svg.board
+      {:view-box (str "0 0 " board-size " " board-size)
+       :style {:max-height "500px"}}]
      (for [x (range board-size)
            y (range board-size)]
        [render-board-cell @app-state x y]
