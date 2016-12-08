@@ -60,12 +60,13 @@
   [board]
   (some #(winning-line? board %) lines))
 
+(defn is-empty-cell?
+  [board x y]
+  (= (get board [x y]) :cell/empty))
+
 (defn valid-move?
   [board x y]
-  (and
-    (not (game-over? board))
-    (= :cell/empty (get board [x y]))
-    ))
+  (and (is-empty-cell? board x y) (not (game-over? board))))
 
 (defn on-move
   "Convert the cell to current player, switch player, look at win conditions"
