@@ -70,26 +70,29 @@
 ;; Rendering
 
 (defn render-board-cell
-  [app-state x y]
-  (let [cell-state (get (:board app-state) [x y])]
+  [board x y]
+  (let [cell-state (get board [x y])]
     (cell/render-cell cell-state x y
       (if (= :cell/empty cell-state)
         {:on-click #(on-move-event x y)} {}))
     ))
 
+(defn render-board
+  [board]
+  (into
+    [:svg.board
+     {:view-box (str "0 0 " board-size " " board-size)
+      :style {:max-height "500px"}}]
+    (for [x (range board-size)
+          y (range board-size)]
+      [render-board-cell board x y]
+      )))
+
 (defn tictactoe
   []
   [:div
-   (panel/render-top-panel
-     {:on-restart on-restart-event :on-undo on-undo-event})
-   (into
-     [:svg.board
-      {:view-box (str "0 0 " board-size " " board-size)
-       :style {:max-height "500px"}}]
-     (for [x (range board-size)
-           y (range board-size)]
-       [render-board-cell @current-state x y]
-       ))
+   (panel/render-top-panel {:on-restart on-restart-event :on-undo on-undo-event})
+   (render-board (:board @current-state))
    ])
 
 
