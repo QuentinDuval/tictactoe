@@ -13,7 +13,7 @@
   (into {}
     (for [x (range board-size)
           y (range board-size)]
-      [[x y] :cell/cross]
+      [[x y] :cell/empty]
       )))
 
 (defonce app-state
@@ -46,16 +46,21 @@
   [[x y] [dx dy]]
   [:line {:x1 x :y1 y
           :x2 (+ x dx) :y2 (+ y dy)
-          :fill "none" :stroke-width 0.03 :stroke "red"}
+          :fill "none" :stroke-width 0.04 :stroke "red"}
    ])
 
 (defmethod render-cell :cell/cross
   [_ x y]
   [:g
-   [draw-cross-line [x y] [1 1]]
-   [draw-cross-line [x (inc y)] [1 -1]]
+   [draw-cross-line [(+ x 0.05) (+ y 0.05)] [0.9 0.9]]
+   [draw-cross-line [(+ x 0.05) (+ y 0.95)] [0.9 -0.9]]
    ])
 
+(defn render-board-cell
+  [app-state x y]
+  (render-cell
+    (get (:board app-state) [x y])
+    x y))
 
 (defn tictactoe
   []
@@ -65,9 +70,9 @@
      [:svg.board
       {:view-box (str "0 0 " board-size " " board-size)
        :style {:max-height "500px"}}]
-     (for [i (range board-size)
-           j (range board-size)]
-       [render-cell (get (:board @app-state) [i j]) i j]
+     (for [x (range board-size)
+           y (range board-size)]
+       [render-board-cell @app-state x y]
        ))
    ])
 
