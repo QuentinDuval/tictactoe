@@ -22,10 +22,9 @@
 (def rows (partition 3 coordinates))
 (def cols (utils/transpose rows))
 (def diags
-  (list
-    (filter #(= (first %) (second %)) coordinates)
-    (filter #(= (dec board-size) (reduce + %)) coordinates)
-    ))
+  [(filter #(= (first %) (second %)) coordinates)
+   (filter #(= (dec board-size) (reduce + %)) coordinates)])
+(def lines (concat rows cols diags))
 
 
 ;; Game logic
@@ -49,20 +48,26 @@
     :cell/cross :cell/circle
     :cell/circle :cell/cross))
 
-(defn find-winner
+(defn find-winning-line
   "Indicates whether the move is move that made the player win"
   [board]
-  nil)
-
+  (first
+    (for [line lines
+          :let [players (into #{} (utils/get-all board line))]
+          :when (= 1 (count players))
+          :when (not-any? #{:cell/empty} players)]
+      line)))
 
 (defn on-move
   "Convert the cell to current player, switch player, look at win conditions"
   [game-state x y]
-  (let [current-state (last game-state)]
+  (let [{:keys [board player] :as current} (peek game-state)
+        new-board (convert-cell board player x y)]
     (conj game-state
-      (-> current-state
-        (update-in [:board] convert-cell (:player current-state) x y)
-        (update-in [:player] next-player)
+      (-> current
+        (assoc :board new-board)
+        (assoc :winner (find-winning-line new-board))
+        (update :player next-player)
         ))))
 
 (defn on-undo
@@ -75,7 +80,7 @@
 ;; Plugging to game state
 
 (defonce app-state (atom (new-game)))
-(def current-state (reaction (last @app-state)))
+(def current-state (reaction (peek @app-state)))
 
 (defn on-move-event [x y] (swap! app-state on-move x y))
 (defn on-restart-event [] (reset! app-state (new-game)))
