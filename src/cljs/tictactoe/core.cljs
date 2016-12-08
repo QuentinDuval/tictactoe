@@ -3,10 +3,16 @@
 
 (enable-console-print!)
 
+
+;; Constants
+
 (def board-size 3)
 
 (def cell-state?
   #{:cell/empty :cell/cross :cell/circle})
+
+
+;; Game logic
 
 (defn init-board
   []
@@ -17,8 +23,30 @@
       )))
 
 (defonce app-state
-  (atom {:board (init-board)}))
+  (atom {:board (init-board)
+         :player :cell/cross}))
 
+(defn play-move
+  [board player x y]
+  (assoc board [x y] player))
+
+(defn next-player
+  [current]
+  (if (= current :cell/cross) :cell/circle :cell/cross))
+
+(defn on-move
+  [app-state x y]
+  (-> app-state
+    (update-in [:board] play-move (:player app-state) x y)
+    (update-in [:player] next-player)
+    ))
+
+(defn on-move-event
+  [x y]
+  (swap! app-state on-move x y))
+
+
+;; Rendering
 
 (defmulti render-cell
   "Draw a rectangle cell on the screen"
@@ -30,7 +58,7 @@
    {:x (+ 0.05 x) :width 0.9
     :y (+ 0.05 y) :height 0.9
     :fill "lightgrey"
-    :on-click #(println "titi")}
+    :on-click #(on-move-event x y)}
    ])
 
 (defmethod render-cell :cell/circle
@@ -75,6 +103,9 @@
        [render-board-cell @app-state x y]
        ))
    ])
+
+
+;; Plug to reagent
 
 (reagent/render
   [tictactoe]
