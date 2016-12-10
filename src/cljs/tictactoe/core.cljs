@@ -13,7 +13,7 @@
 ;; --------------------------------------------------------
 
 (defonce app-state (atom (logic/new-game)))
-(def current-state (reaction (peek @app-state)))
+(def current-board (reaction (:board (peek @app-state))))
 
 (defn on-move-event [x y] (swap! app-state logic/on-move x y))
 (defn on-restart-event [] (reset! app-state (logic/new-game)))
@@ -46,7 +46,7 @@
   []
   [:div
    (panel/render-top-panel {:on-restart on-restart-event :on-undo on-undo-event})
-   (render-board (:board @current-state))
+   (render-board @current-board)
    ])
 
 
