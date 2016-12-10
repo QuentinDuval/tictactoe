@@ -1,5 +1,7 @@
 (ns tictactoe.logic                                         ;; Game logic
-  (:require [tictactoe.utils :as utils]))
+  (:require
+    [tictactoe.utils :as utils]
+    ))
 
 ;; --------------------------------------------------------
 ;; Constants
@@ -26,14 +28,10 @@
 (def lines (concat rows cols diags))
 
 ;; --------------------------------------------------------
-;; Game logic
+;; Game logic (private)
 ;; --------------------------------------------------------
 
-(defn new-game []
-  [{:board empty-board :player :cell/cross}])
-
 (defn- convert-cell
-  "Convert the cell to the new player"
   [board player x y]
   (assoc board [x y] player))
 
@@ -66,6 +64,15 @@
     (update :board convert-cell (:player current) x y)
     (update :player next-player)
     ))
+
+;; --------------------------------------------------------
+;; Game logic (public)
+;; --------------------------------------------------------
+
+(defn new-game
+  "Create a new fresh game, with empty board and no history"
+  []
+  [{:board empty-board :player :cell/cross}])
 
 (defn on-move
   "On reception of the move command"
