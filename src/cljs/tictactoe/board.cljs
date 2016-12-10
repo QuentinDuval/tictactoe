@@ -20,5 +20,5 @@
      {:view-box (str "0 0 " logic/board-size " " logic/board-size)
       :style {:max-height "500px"}}]
     (for [[x y] logic/coordinates]
-      [render-board-cell board x y])
+      [render-board-cell board x y on-move])
     ))
