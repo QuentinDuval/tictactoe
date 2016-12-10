@@ -10,5 +10,5 @@
   "Get all the values associated to the key"
   [col keys]
   (eduction
-    (map #(get col % nil))
+    (map #(get col %))
     keys))
