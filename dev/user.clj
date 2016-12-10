@@ -14,6 +14,6 @@
 (defn run []
   (figwheel/start-figwheel!))
 
-(enable-console-print!)
+;;(enable-console-print!)
 
 (def browser-repl figwheel/cljs-repl)

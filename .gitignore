@@ -2,6 +2,7 @@
 *.jar
 .idea/
 tictactoe.iml
+.DS_Store
 /.lein-*
 /.nrepl-port
 /.repl
