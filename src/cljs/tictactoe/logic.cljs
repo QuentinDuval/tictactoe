@@ -1,8 +1,9 @@
 (ns tictactoe.logic                                         ;; Game logic
   (:require [tictactoe.utils :as utils]))
 
-
+;; --------------------------------------------------------
 ;; Constants
+;; --------------------------------------------------------
 
 (def board-size 3)
 
@@ -24,8 +25,9 @@
 (def cols (utils/transpose rows))
 (def lines (concat rows cols diags))
 
-
+;; --------------------------------------------------------
 ;; Game logic
+;; --------------------------------------------------------
 
 (defn new-game []
   [{:board empty-board :player :cell/cross}])
