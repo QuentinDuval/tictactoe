@@ -13,4 +13,4 @@ Clojurescript stroke me as an awesome language to do it: the integration to the 
 ## More information
 
 The game is hosted by GitHub pages at:
-quentinduval.github.io/tictactoe
+https://quentinduval.github.io/tictactoe/
