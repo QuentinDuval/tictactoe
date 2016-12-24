@@ -1,6 +1,8 @@
 (ns tictactoe.logic-test
   (:require-macros
-    [cljs.test :refer (is deftest testing)])
+    [cljs.test :refer (is deftest testing)]
+    [clojure.test.check.clojure-test :refer [defspec]]
+    )
   (:require
     [cljs.test :as test]
     [clojure.test.check :as tc]
@@ -52,8 +54,21 @@
     (is (> cell-count (count-empty-cells end-game)))
     ))
 
-;; TODO - Play random move: either the move is done and player changed + one less cell, or not
 
+;; Generative testing
+
+(defn valid-on-move-reaction
+  [game-state]
+  (prop/for-all [[x y] (gen/elements logic/coordinates)]
+    (let [next-game-state (logic/on-move game-state x y)]
+      (or
+        (= (count-empty-cells game-state) (count-empty-cells next-game-state))
+        (not= (logic/get-next-player game-state) (logic/get-next-player next-game-state))
+        ))))
+
+(defspec next-player-at-start
+  100
+  (valid-on-move-reaction (logic/new-game)))
 
 
 ;; Runner

@@ -94,6 +94,11 @@
   [game-state]
   (:board (peek game-state)))
 
+(defn get-next-player
+  "Get the next player to play"
+  [game-state]
+  (:player (peek game-state)))
+
 (defn game-over?
   "Indicates whether the game is over"
   [game-state]
