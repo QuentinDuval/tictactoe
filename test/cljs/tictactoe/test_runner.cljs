@@ -3,4 +3,5 @@
     [cljs.test :as test]
     ))
 
-(test/run-all-tests #"tictactoe.*")
+(test/run-tests
+  'tictactoe.logic-test)
