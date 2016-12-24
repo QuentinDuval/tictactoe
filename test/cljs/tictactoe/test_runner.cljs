@@ -4,4 +4,4 @@
     ))
 
 (test/run-tests
-  'tictactoe.logic-test)
+  'tictactoe.game-logic-test)

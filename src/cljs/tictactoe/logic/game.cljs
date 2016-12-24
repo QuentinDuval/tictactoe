@@ -1,4 +1,4 @@
-(ns tictactoe.logic.logic
+(ns tictactoe.logic.game
   (:require
     [tictactoe.logic.constants :as cst]
     [tictactoe.utils :as utils]

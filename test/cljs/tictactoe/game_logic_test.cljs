@@ -1,4 +1,4 @@
-(ns tictactoe.logic-test
+(ns tictactoe.game-logic-test
   (:require-macros
     [cljs.test :refer (is deftest testing)]
     [clojure.test.check.clojure-test :refer [defspec]]
@@ -9,7 +9,7 @@
     [clojure.test.check.generators :as gen]
     [clojure.test.check.properties :as prop :include-macros true]
     [tictactoe.logic.constants :as cst]
-    [tictactoe.logic.logic :as logic]
+    [tictactoe.logic.game :as logic]
     ))
 
 

@@ -3,7 +3,7 @@
     [reagent.core :as reagent]
     [tictactoe.view.board :as board]
     [tictactoe.view.panel :as panel]
-    [tictactoe.logic.logic :as logic])
+    [tictactoe.logic.game :as logic])
   (:require-macros
     [reagent.ratom :refer [reaction]]
     ))
