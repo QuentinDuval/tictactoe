@@ -1,4 +1,4 @@
-(ns tictactoe.game-logic-test
+(ns tictactoe.game-test
   (:require-macros
     [cljs.test :refer (is deftest testing)]
     [clojure.test.check.clojure-test :refer [defspec]]
@@ -88,6 +88,6 @@
     (valid-on-move-reaction b)))
 
 
-;; Runner
+;; Running the tests
 
 (test/run-tests)

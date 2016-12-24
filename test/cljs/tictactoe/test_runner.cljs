@@ -1,10 +1,13 @@
-(ns cljs.tictactoe.test-runner
+(ns tictactoe.test-runner
   (:require
-    ;;[tictactoe.common-test]
-    ;;[tictactoe.game-logic-test] ;; TODO - The import does not work. WHY?
-    [cljs.test :as test]
+    [doo.runner :refer-macros [doo-tests]]
+    [tictactoe.common-test]
+    [tictactoe.game-test]
     ))
 
-(test/run-tests
+(enable-console-print!)
+
+(doo-tests
+  'tictactoe.game-test
   'tictactoe.common-test
-  'tictactoe.game-logic-test)
+  )
