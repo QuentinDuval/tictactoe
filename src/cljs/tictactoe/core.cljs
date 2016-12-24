@@ -1,6 +1,6 @@
 (ns tictactoe.core
   (:require
-    [reagent.core :as reagent :refer [atom]]
+    [reagent.core :as reagent]
     [tictactoe.board :as board]
     [tictactoe.panel :as panel]
     [tictactoe.logic :as logic])
@@ -12,7 +12,7 @@
 ;; Game state management
 ;; --------------------------------------------------------
 
-(defonce app-state (atom (logic/new-game)))
+(defonce app-state (reagent/atom (logic/new-game)))
 (def current-board (reaction (:board (peek @app-state))))
 
 (defn on-move-event [x y] (swap! app-state logic/on-move x y))

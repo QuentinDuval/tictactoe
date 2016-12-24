@@ -46,7 +46,7 @@
       (= 1 (count (set owners)))
       )))
 
-(defn game-over?
+(defn- game-over?
   [board]
   (some #(winning-line? board %) lines))
 
@@ -85,6 +85,6 @@
 (defn on-undo
   "Remove the last game if there is enough game played"
   [game-state]
-  (if (< 1 (count game-state)) (pop game-state) game-state))
-
-
+  (if (< 1 (count game-state))
+    (pop game-state)
+    game-state))
