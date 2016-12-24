@@ -11,6 +11,8 @@
         y (range board-size)]
     [x y]))
 
+(def cell-count (count coordinates))
+
 (def empty-board
   (into {}
     (map (fn [c] [c :cell/empty]))

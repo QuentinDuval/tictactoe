@@ -15,8 +15,6 @@
 
 ;; Utils for the tests
 
-(def cell-count (* cst/board-size cst/board-size))
-
 (defn get-cells
   [game-state]
   (map second (logic/get-board game-state)))
@@ -45,18 +43,28 @@
 (deftest test-init-game
   (let [init-game (logic/new-game)]
     (is (not (logic/game-over? init-game)))
-    (is (= cell-count (count-empty-cells init-game)))
+    (is (= cst/cell-count (count-empty-cells init-game)))
     ))
 
 (deftest test-game-over
   (let [init-game (logic/new-game)
         end-game (play-moves init-game cst/coordinates)]
     (is (logic/game-over? end-game))
-    (is (> cell-count (count-empty-cells end-game)))
+    (is (> cst/cell-count (count-empty-cells end-game)))
     ))
 
 
 ;; Generative testing
+
+(def cell-generator
+  (gen/elements #{:cell/empty :cell/cross :cell/circle}))
+
+(def board-generator
+  (apply gen/hash-map
+    (interleave
+      cst/coordinates
+      (repeat cst/cell-count cell-generator)
+      )))
 
 (defn valid-on-move-reaction
   [game-state]
@@ -70,6 +78,11 @@
 (defspec next-player-at-start
   100
   (valid-on-move-reaction (logic/new-game)))
+
+(defspec try-move-for-any-board
+  100
+  (prop/for-all [b board-generator]
+    (valid-on-move-reaction b)))
 
 
 ;; Runner
