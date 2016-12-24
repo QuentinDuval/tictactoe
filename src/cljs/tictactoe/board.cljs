@@ -1,11 +1,10 @@
 (ns tictactoe.board
   (:require
     [tictactoe.cell :as cell]
+    [tictactoe.display :as display]
     [tictactoe.logic :as logic]
     ))
 
-
-(def board-pixel-size 500)
 
 (defn render-board-cell
   "Render a cell on the board"
@@ -20,7 +19,7 @@
   (into
     [:svg.board
      {:view-box (str "0 0 " logic/board-size " " logic/board-size)
-      :style {:max-height (str board-pixel-size "px")}}]
+      :style {:max-height (str display/board-pixel-size "px")}}]
     (for [[x y] logic/coordinates]
       [render-board-cell board x y on-move])
     ))
