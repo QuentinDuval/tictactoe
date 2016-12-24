@@ -1,31 +1,9 @@
-(ns tictactoe.logic                                         ;; Game logic
+(ns tictactoe.logic.logic
   (:require
+    [tictactoe.logic.constants :as cst]
     [tictactoe.utils :as utils]
     ))
 
-;; --------------------------------------------------------
-;; Constants
-;; --------------------------------------------------------
-
-(def board-size 3)
-
-(def coordinates
-  (for [x (range board-size)
-        y (range board-size)]
-    [x y]))
-
-(def empty-board
-  (into {}
-    (map (fn [c] [c :cell/empty]))
-    coordinates))
-
-(def diags
-  [(filter #(= (first %) (second %)) coordinates)
-   (filter #(= (dec board-size) (reduce + %)) coordinates)])
-
-(def rows (partition board-size coordinates))
-(def cols (utils/transpose rows))
-(def lines (concat rows cols diags))
 
 ;; --------------------------------------------------------
 ;; Game logic (private)
@@ -48,7 +26,7 @@
 
 (defn- has-winner?
   [board]
-  (some #(winning-line? board %) lines))
+  (some #(winning-line? board %) cst/lines))
 
 (defn- is-empty-cell?
   [board x y]
@@ -72,7 +50,7 @@
 (defn new-game
   "Create a new fresh game, with empty board and no history"
   []
-  [{:board empty-board :player :cell/cross}])
+  [{:board cst/empty-board :player :cell/cross}])
 
 (defn on-move
   "On reception of the move command"

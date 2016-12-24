@@ -8,13 +8,14 @@
     [clojure.test.check :as tc]
     [clojure.test.check.generators :as gen]
     [clojure.test.check.properties :as prop :include-macros true]
-    [tictactoe.logic :as logic]
+    [tictactoe.logic.constants :as cst]
+    [tictactoe.logic.logic :as logic]
     ))
 
 
 ;; Utils for the tests
 
-(def cell-count (* logic/board-size logic/board-size))
+(def cell-count (* cst/board-size cst/board-size))
 
 (defn get-cells
   [game-state]
@@ -49,7 +50,7 @@
 
 (deftest test-game-over
   (let [init-game (logic/new-game)
-        end-game (play-moves init-game logic/coordinates)]
+        end-game (play-moves init-game cst/coordinates)]
     (is (logic/game-over? end-game))
     (is (> cell-count (count-empty-cells end-game)))
     ))
@@ -59,7 +60,7 @@
 
 (defn valid-on-move-reaction
   [game-state]
-  (prop/for-all [[x y] (gen/elements logic/coordinates)]
+  (prop/for-all [[x y] (gen/elements cst/coordinates)]
     (let [next-game-state (logic/on-move game-state x y)]
       (or
         (= (count-empty-cells game-state) (count-empty-cells next-game-state))
