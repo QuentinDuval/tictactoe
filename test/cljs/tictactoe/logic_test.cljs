@@ -3,6 +3,9 @@
     [cljs.test :refer (is deftest testing)])
   (:require
     [cljs.test :as test]
+    [clojure.test.check :as tc]
+    [clojure.test.check.generators :as gen]
+    [clojure.test.check.properties :as prop :include-macros true]
     [tictactoe.logic :as logic]
     ))
 
@@ -42,13 +45,15 @@
     (is (= cell-count (count-empty-cells init-game)))
     ))
 
-;; TODO - Would not work fine with a constant of 4!
-(deftest test-winning-game
+(deftest test-game-over
   (let [init-game (logic/new-game)
         end-game (play-moves init-game logic/coordinates)]
     (is (logic/game-over? end-game))
     (is (> cell-count (count-empty-cells end-game)))
     ))
+
+;; TODO - Play random move: either the move is done and player changed + one less cell, or not
+
 
 
 ;; Runner
