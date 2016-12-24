@@ -1,4 +1,4 @@
-(ns tictactoe.panel)
+(ns tictactoe.view.panel)
 
 
 (defn- special-char

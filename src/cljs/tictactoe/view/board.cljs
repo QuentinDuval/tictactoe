@@ -1,7 +1,7 @@
-(ns tictactoe.board
+(ns tictactoe.view.board
   (:require
-    [tictactoe.cell :as cell]
-    [tictactoe.display :as display]
+    [tictactoe.view.cell :as cell]
+    [tictactoe.view.constants :as cst]
     [tictactoe.logic :as logic]
     ))
 
@@ -19,7 +19,7 @@
   (into
     [:svg.board
      {:view-box (str "0 0 " logic/board-size " " logic/board-size)
-      :style {:max-height (str display/board-pixel-size "px")}}]
+      :style {:max-height (str cst/board-pixel-size "px")}}]
     (for [[x y] logic/coordinates]
       [render-board-cell board x y on-move])
     ))

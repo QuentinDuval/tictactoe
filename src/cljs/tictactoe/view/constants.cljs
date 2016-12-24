@@ -1,4 +1,4 @@
-(ns tictactoe.display)
+(ns tictactoe.view.constants)
 
 
 ;; All the display constants

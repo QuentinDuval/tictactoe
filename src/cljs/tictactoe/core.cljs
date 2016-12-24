@@ -1,8 +1,8 @@
 (ns tictactoe.core
   (:require
     [reagent.core :as reagent]
-    [tictactoe.board :as board]
-    [tictactoe.panel :as panel]
+    [tictactoe.view.board :as board]
+    [tictactoe.view.panel :as panel]
     [tictactoe.logic :as logic])
   (:require-macros
     [reagent.ratom :refer [reaction]]
