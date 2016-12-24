@@ -13,7 +13,7 @@
 ;; --------------------------------------------------------
 
 (defonce app-state (reagent/atom (logic/new-game)))
-(def current-board (reaction (:board (peek @app-state))))
+(def current-board (reaction (logic/get-board @app-state)))
 
 (defn on-move-event [x y] (swap! app-state logic/on-move x y))
 (defn on-restart-event [] (reset! app-state (logic/new-game)))

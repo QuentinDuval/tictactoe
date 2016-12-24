@@ -46,7 +46,7 @@
       (= 1 (count (set owners)))
       )))
 
-(defn- game-over?
+(defn- has-winner?
   [board]
   (some #(winning-line? board %) lines))
 
@@ -56,7 +56,7 @@
 
 (defn- valid-move?
   [board x y]
-  (and (is-empty-cell? board x y) (not (game-over? board))))
+  (and (is-empty-cell? board x y) (not (has-winner? board))))
 
 (defn- next-state
   [current x y]
@@ -88,3 +88,17 @@
   (if (< 1 (count game-state))
     (pop game-state)
     game-state))
+
+(defn get-board
+  "Get the current board of the game"
+  [game-state]
+  (:board (peek game-state)))
+
+(defn game-over?
+  "Indicates whether the game is over"
+  [game-state]
+  (let [current-board (get-board game-state)]
+    (or
+      (not (some #{:cell/empty} (map second current-board)))
+      (has-winner? current-board)
+      )))
