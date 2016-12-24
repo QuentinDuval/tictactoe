@@ -56,14 +56,17 @@
 
 ;; Generative testing
 
-(def cell-generator
+(def player-gen
+  (gen/elements #{:cell/cross :cell/circle}))
+
+(def cell-gen
   (gen/elements #{:cell/empty :cell/cross :cell/circle}))
 
-(def board-generator
+(def board-gen
   (apply gen/hash-map
     (interleave
       cst/coordinates
-      (repeat cst/cell-count cell-generator)
+      (repeat cst/cell-count cell-gen)
       )))
 
 (defn valid-on-move-reaction
@@ -81,7 +84,7 @@
 
 (defspec try-move-for-any-board
   100
-  (prop/for-all [b board-generator]
+  (prop/for-all [b board-gen]
     (valid-on-move-reaction b)))
 
 
