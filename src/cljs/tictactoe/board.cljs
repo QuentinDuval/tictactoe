@@ -5,6 +5,8 @@
     ))
 
 
+(def board-pixel-size 500)
+
 (defn render-board-cell
   "Render a cell on the board"
   [board x y on-move]
@@ -18,7 +20,7 @@
   (into
     [:svg.board
      {:view-box (str "0 0 " logic/board-size " " logic/board-size)
-      :style {:max-height "500px"}}]
+      :style {:max-height (str board-pixel-size "px")}}]
     (for [[x y] logic/coordinates]
       [render-board-cell board x y on-move])
     ))
