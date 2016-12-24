@@ -1,10 +1,6 @@
 (ns tictactoe.test-runner
   (:require
-   [doo.runner :refer-macros [doo-tests]]
-   [tictactoe.core-test]
-   [tictactoe.common-test]))
+    [cljs.test :as test]
+    ))
 
-(enable-console-print!)
-
-(doo-tests 'tictactoe.core-test
-           'tictactoe.common-test)
+(test/run-all-tests #"tictactoe.*")
