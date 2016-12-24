@@ -43,6 +43,7 @@
     (update :player next-player)
     ))
 
+
 ;; --------------------------------------------------------
 ;; Game logic (public)
 ;; --------------------------------------------------------
@@ -82,6 +83,6 @@
   [game-state]
   (let [current-board (get-board game-state)]
     (or
-      (not (some #{:cell/empty} (map second current-board)))
+      (not-any? #{:cell/empty} (map second current-board))
       (has-winner? current-board)
       )))
