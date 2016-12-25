@@ -3,6 +3,7 @@
     [reagent.core :as reagent]
     [tictactoe.view.board :as board]
     [tictactoe.view.panel :as panel]
+    [tictactoe.logic.constants :as cst]
     [tictactoe.logic.game :as logic])
   (:require-macros
     [reagent.ratom :refer [reaction]]
@@ -28,7 +29,7 @@
   []
   [:div
    (panel/render-top-panel {:on-restart on-restart-event :on-undo on-undo-event})
-   (board/render-board @current-board on-move-event)
+   (board/render-board @current-board cst/board-size on-move-event)
    ])
 
 (reagent/render [tic-tac-toe] (js/document.getElementById "app"))

@@ -95,18 +95,18 @@
 
 ;; The following are all bad ideas
 
-#_(def player-gen
-    (gen/elements #{:cell/cross :cell/circle}))
+(def player-gen
+  (gen/elements #{:cell/cross :cell/circle}))
 
-#_(def cell-gen
-    (gen/elements #{:cell/empty :cell/cross :cell/circle}))
+(def cell-gen
+  (gen/elements #{:cell/empty :cell/cross :cell/circle}))
 
-#_(def board-gen
-    (apply gen/hash-map
-      (interleave
-        cst/coordinates
-        (repeat cst/cell-count cell-gen)
-        )))
+(def board-gen
+  (apply gen/hash-map
+    (interleave
+      cst/coordinates
+      (repeat cst/cell-count cell-gen)
+      )))
 
 
 ;; ----------------------------------------------------------------------------

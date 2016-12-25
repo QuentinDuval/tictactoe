@@ -2,7 +2,6 @@
   (:require
     [tictactoe.view.cell :as cell]
     [tictactoe.view.constants :as cst]
-    [tictactoe.logic.constants :as logic-cst]
     ))
 
 
@@ -15,9 +14,9 @@
 
 (defn render-board
   "Render the board: pure component that only depends on inputs"
-  [board on-move]
+  [board board-cell-size on-move]
   (into
-    (svg-board-plane logic-cst/board-size cst/board-pixel-size)
+    (svg-board-plane board-cell-size cst/board-pixel-size)
     (for [[[x y] cell-owner] board]
       (cell/render-cell cell-owner x y {:on-click #(on-move x y)}))
     ))
