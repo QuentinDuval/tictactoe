@@ -127,10 +127,10 @@
       (or (= old-game new-game) (valid-next-game? old-game new-game))
       )))
 
-(defspec next-player-at-start 100
+(defspec try-move-from-start-game 100
   (valid-move-properties (logic/new-game)))
 
-(defspec try-move-for-any-board 100
+(defspec try-move-from-valid-game 100
   (prop/for-all [game game-gen] (valid-move-properties game)))
 
 
