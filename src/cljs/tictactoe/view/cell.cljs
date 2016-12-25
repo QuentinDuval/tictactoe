@@ -5,10 +5,10 @@
 
 
 (defmulti render-cell
-  (fn [type x y options] type))
+  (fn [type [x y] options] type))
 
 (defmethod render-cell :cell/empty
-  [_ x y options]
+  [_ [x y] options]
   [:rect
    (merge {:x (+ cst/cell-relative-margin x)
            :y (+ cst/cell-relative-margin y)
@@ -19,7 +19,7 @@
    ])
 
 (defmethod render-cell :cell/circle
-  [_ x y options]
+  [_ [x y] options]
   [:circle
    (merge {:cx (+ cst/cell-relative-middle x)
            :cy (+ cst/cell-relative-middle y)
@@ -41,7 +41,7 @@
    ])
 
 (defmethod render-cell :cell/cross
-  [_ x y options]
+  [_ [x y] options]
   [:g
    [draw-cross-line [(+ x cst/cell-relative-margin) (+ y cst/cell-relative-margin)] [1 1]]
    [draw-cross-line [(+ x cst/cell-relative-margin) (+ y (- 1 cst/cell-relative-margin))] [1 -1]]

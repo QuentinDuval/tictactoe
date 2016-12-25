@@ -17,6 +17,6 @@
   [board board-cell-size on-move]
   (into
     (svg-board-plane board-cell-size cst/board-pixel-size)
-    (for [[[x y] cell-owner] board]
-      (cell/render-cell cell-owner x y {:on-click #(on-move x y)}))
+    (for [[cell-pos cell-owner] board]
+      (cell/render-cell cell-owner cell-pos {:on-click #(on-move cell-pos)}))
     ))
