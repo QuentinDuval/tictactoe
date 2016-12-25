@@ -133,6 +133,18 @@
 (defspec try-move-from-valid-game 100
   (prop/for-all [game game-gen] (valid-move-properties game)))
 
+(defn valid-undo-properties
+  [old-game]
+  (prop/for-all [[x y] coord-gen]
+    (let [new-game (logic/on-move old-game x y)]
+      (or
+        (= old-game new-game)
+        (= old-game (logic/on-undo new-game))
+        ))))
+
+(defspec try-undo-from-valid-game 100
+  (prop/for-all [game game-gen] (valid-undo-properties game)))
+
 
 ;; ----------------------------------------------------------------------------
 ;; Running the tests
