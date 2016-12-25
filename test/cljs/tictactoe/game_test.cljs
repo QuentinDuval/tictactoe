@@ -47,39 +47,6 @@
 
 
 ;; ----------------------------------------------------------------------------
-;; Generators
-;; ----------------------------------------------------------------------------
-
-;; This is the only valid generator to define:
-;; - Game generator based on board generator + player generator would lead to
-;; invalid state constructions. We would test too much and not precisely.
-;; - The test should be based on visible API only: it means we should not
-;; try to generate the internal state of the game. It would breach
-;; encapsulation, and would thus break at any implementation change.
-(def coord-gen
-  (gen/elements cst/coordinates))
-
-#_(def player-gen
-  (gen/elements #{:cell/cross :cell/circle}))
-
-#_(def cell-gen
-  (gen/elements #{:cell/empty :cell/cross :cell/circle}))
-
-#_(def board-gen
-  (apply gen/hash-map
-    (interleave
-      cst/coordinates
-      (repeat cst/cell-count cell-gen)
-      )))
-
-#_(def game-gen
-  (gen/let [nb (gen/int)
-            xy (gen/sample coord-gen nb)]
-    (play-moves (logic/new-game) xy)
-    ))
-
-
-;; ----------------------------------------------------------------------------
 ;; Example based tests
 ;; ----------------------------------------------------------------------------
 
@@ -106,6 +73,41 @@
 
 
 ;; ----------------------------------------------------------------------------
+;; Generators
+;; ----------------------------------------------------------------------------
+
+;; This is the only valid generator to define:
+;; - Game generator based on board generator + player generator would lead to
+;; invalid state constructions. We would test too much and not precisely.
+;; - The test should be based on visible API only: it means we should not
+;; try to generate the internal state of the game. It would breach
+;; encapsulation, and would thus break at any implementation change.
+(def coord-gen
+  (gen/elements cst/coordinates))
+
+(def game-gen
+  (gen/fmap
+    #(play-moves (logic/new-game) %)
+    (gen/vector coord-gen 0 cst/cell-count)
+    ))
+
+;; The following are all bad ideas
+
+#_(def player-gen
+    (gen/elements #{:cell/cross :cell/circle}))
+
+#_(def cell-gen
+    (gen/elements #{:cell/empty :cell/cross :cell/circle}))
+
+#_(def board-gen
+    (apply gen/hash-map
+      (interleave
+        cst/coordinates
+        (repeat cst/cell-count cell-gen)
+        )))
+
+
+;; ----------------------------------------------------------------------------
 ;; Generative testing
 ;; ----------------------------------------------------------------------------
 
@@ -129,9 +131,7 @@
   (valid-move-properties (logic/new-game)))
 
 (defspec try-move-for-any-board 100
-  (prop/for-all [coords (gen/vector coord-gen 0 cst/cell-count)]
-    (valid-move-properties (play-moves (logic/new-game) coords))
-    ))
+  (prop/for-all [game game-gen] (valid-move-properties game)))
 
 
 ;; ----------------------------------------------------------------------------
