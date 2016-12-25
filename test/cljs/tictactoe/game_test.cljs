@@ -4,6 +4,7 @@
     [clojure.test.check.clojure-test :refer [defspec]]
     )
   (:require
+    ;;[tictactoe.common-test]
     [cljs.test :as test]
     [clojure.test.check :as tc]
     [clojure.test.check.generators :as gen]
@@ -13,7 +14,9 @@
     ))
 
 
+;; ----------------------------------------------------------------------------
 ;; Utils for the tests
+;; ----------------------------------------------------------------------------
 
 (defn get-cells
   [game-state]
@@ -35,10 +38,31 @@
   [init-game moves]
   (reduce
     (fn [game [x y]] (logic/on-move game x y))
+    init-game
     moves))
 
 
-;; Tests
+;; ----------------------------------------------------------------------------
+;; Generators
+;; ----------------------------------------------------------------------------
+
+(def player-gen
+  (gen/elements #{:cell/cross :cell/circle}))
+
+(def cell-gen
+  (gen/elements #{:cell/empty :cell/cross :cell/circle}))
+
+(def board-gen
+  (apply gen/hash-map
+    (interleave
+      cst/coordinates
+      (repeat cst/cell-count cell-gen)
+      )))
+
+
+;; ----------------------------------------------------------------------------
+;; Example based tests
+;; ----------------------------------------------------------------------------
 
 (deftest test-init-game
   (let [init-game (logic/new-game)]
@@ -53,21 +77,18 @@
     (is (> cst/cell-count (count-empty-cells end-game)))
     ))
 
+(deftest test-undo-game
+  (let [init-game (logic/new-game)
+        end-game  (play-moves init-game cst/coordinates)
+        undo-game (reduce #(logic/on-undo %1) end-game cst/coordinates)]
+    (is (logic/game-over? end-game))
+    (is (= init-game undo-game))
+    ))
 
+
+;; ----------------------------------------------------------------------------
 ;; Generative testing
-
-(def player-gen
-  (gen/elements #{:cell/cross :cell/circle}))
-
-(def cell-gen
-  (gen/elements #{:cell/empty :cell/cross :cell/circle}))
-
-(def board-gen
-  (apply gen/hash-map
-    (interleave
-      cst/coordinates
-      (repeat cst/cell-count cell-gen)
-      )))
+;; ----------------------------------------------------------------------------
 
 (defn valid-on-move-reaction
   [game-state]
