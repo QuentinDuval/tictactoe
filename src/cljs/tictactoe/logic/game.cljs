@@ -33,10 +33,10 @@
   (= (get board [x y]) :cell/empty))
 
 (defn- valid-move?
-  [board x y]
+  [{:keys [board] :as current} x y]
   (and (is-empty-cell? board x y) (not (has-winner? board))))
 
-(defn- next-state
+(defn- on-valid-move
   [current x y]
   (-> current
     (update :board convert-cell (:player current) x y)
@@ -57,8 +57,8 @@
   "On reception of the move command"
   [game-state x y]
   (let [current (peek game-state)]
-    (if (valid-move? (:board current) x y)
-      (conj game-state (next-state current x y))
+    (if (valid-move? current x y)
+      (conj game-state (on-valid-move current x y))
       game-state)))
 
 (defn on-undo

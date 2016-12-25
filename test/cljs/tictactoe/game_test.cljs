@@ -22,13 +22,9 @@
   [game-state]
   (map second (logic/get-board game-state)))
 
-(defn count-if
-  [pred coll]
-  (count (filter pred coll)))
-
 (defn count-equal
   [value coll]
-  (count-if #(= % value) coll))
+  (count (filter #(= % value) coll)))
 
 (defn count-cells
   [cell-type game-state]
@@ -63,13 +59,23 @@
     (is (> cst/cell-count (count-empty-cells end-game)))
     ))
 
-(deftest test-undo-game
+(deftest test-undo-all
   (let [init-game (logic/new-game)
         end-game (play-moves init-game cst/coordinates)
         undo-game (reduce #(logic/on-undo %1) end-game cst/coordinates)]
     (is (logic/game-over? end-game))
     (is (= init-game undo-game))
     ))
+
+(deftest test-winning-line
+  (doseq [i (range (dec cst/board-size))]
+    (let [hor-moves (interleave (nth cst/rows i) (nth cst/rows (inc i)))
+          ver-moves (interleave (nth cst/cols i) (nth cst/cols (inc i)))
+          game-1 (play-moves (logic/new-game) hor-moves)
+          game-2 (play-moves (logic/new-game) ver-moves)]
+      (is (logic/game-over? game-1))
+      (is (logic/game-over? game-2))
+      )))
 
 
 ;; ----------------------------------------------------------------------------
@@ -112,26 +118,22 @@
 ;; ----------------------------------------------------------------------------
 
 (defn valid-next-game?
-  [old-game new-game]
-  (let [next-player (logic/get-next-player new-game)]
+  [old-game new-game move]
+  (let [next-player (logic/get-next-player new-game)
+        prev-player (logic/get-next-player old-game)]
     (and
-      (not= (logic/get-next-player old-game) next-player)
-      (= (dec (count-empty-cells old-game)) (count-empty-cells new-game))
-      (= (count-cells next-player old-game) (count-cells next-player new-game))
+      (not= prev-player next-player)
+      (= prev-player (get (logic/get-board new-game) move))
+      (= (dissoc (logic/get-board old-game) move)
+        (dissoc (logic/get-board new-game) move))
       )))
 
 (defn valid-move-properties
   [old-game]
   (prop/for-all [[x y] coord-gen]
     (let [new-game (logic/on-move old-game x y)]
-      (or (= old-game new-game) (valid-next-game? old-game new-game))
+      (or (= old-game new-game) (valid-next-game? old-game new-game [x y]))
       )))
-
-(defspec try-move-from-start-game 100
-  (valid-move-properties (logic/new-game)))
-
-(defspec try-move-from-valid-game 100
-  (prop/for-all [game game-gen] (valid-move-properties game)))
 
 (defn valid-undo-properties
   [old-game]
@@ -142,8 +144,14 @@
         (= old-game (logic/on-undo new-game))
         ))))
 
+(defspec try-move-from-start-game 100
+  (valid-move-properties (logic/new-game)))
+
+(defspec try-move-from-valid-game 100
+  (prop/for-all [g game-gen] (valid-move-properties g)))
+
 (defspec try-undo-from-valid-game 100
-  (prop/for-all [game game-gen] (valid-undo-properties game)))
+  (prop/for-all [g game-gen] (valid-undo-properties g)))
 
 
 ;; ----------------------------------------------------------------------------
