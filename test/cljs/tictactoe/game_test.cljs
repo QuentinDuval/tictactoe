@@ -50,18 +50,22 @@
 ;; Generators
 ;; ----------------------------------------------------------------------------
 
+;; This is the only valid generator to define:
+;; - Game generator based on board generator + player generator would lead to
+;; invalid state constructions. We would test too much and not precisely.
+;; - The test should be based on visible API only: it means we should not
+;; try to generate the internal state of the game. It would breach
+;; encapsulation, and would thus break at any implementation change.
 (def coord-gen
   (gen/elements cst/coordinates))
 
-(def player-gen
+#_(def player-gen
   (gen/elements #{:cell/cross :cell/circle}))
 
-(def cell-gen
+#_(def cell-gen
   (gen/elements #{:cell/empty :cell/cross :cell/circle}))
 
-;; Board gen is not the way to go => does not allow to have valid states
-;; And you would have to generate too much things (game, etc...)
-(def board-gen
+#_(def board-gen
   (apply gen/hash-map
     (interleave
       cst/coordinates
