@@ -1,8 +1,6 @@
 (ns tictactoe.view.constants)
 
 
-;; All the display constants
-
 (def cell-relative-size 0.9)
 (def cell-relative-margin (/ (- 1 cell-relative-size) 2))
 (def cell-relative-middle 0.5)
