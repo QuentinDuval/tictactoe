@@ -30,9 +30,13 @@
   [value coll]
   (count-if #(= % value) coll))
 
+(defn count-cells
+  [cell-type game-state]
+  (count-equal cell-type (get-cells game-state)))
+
 (defn count-empty-cells
   [game-state]
-  (count-equal :cell/empty (get-cells game-state)))
+  (count-cells :cell/empty game-state))
 
 (defn play-moves
   [init-game moves]
@@ -79,7 +83,7 @@
 
 (deftest test-undo-game
   (let [init-game (logic/new-game)
-        end-game  (play-moves init-game cst/coordinates)
+        end-game (play-moves init-game cst/coordinates)
         undo-game (reduce #(logic/on-undo %1) end-game cst/coordinates)]
     (is (logic/game-over? end-game))
     (is (= init-game undo-game))
@@ -90,14 +94,21 @@
 ;; Generative testing
 ;; ----------------------------------------------------------------------------
 
+(defn valid-next-game?
+  [old-game new-game]
+  (let [next-player (logic/get-next-player new-game)]
+    (and
+      (not= (logic/get-next-player old-game) next-player)
+      (= (dec (count-empty-cells old-game)) (count-empty-cells new-game))
+      (= (count-cells next-player old-game) (count-cells next-player new-game))
+      )))
+
 (defn valid-on-move-reaction
-  [game-state]
+  [old-game]
   (prop/for-all [[x y] (gen/elements cst/coordinates)]
-    (let [next-game-state (logic/on-move game-state x y)]
-      (or
-        (= (count-empty-cells game-state) (count-empty-cells next-game-state))
-        (not= (logic/get-next-player game-state) (logic/get-next-player next-game-state))
-        ))))
+    (let [new-game (logic/on-move old-game x y)]
+      (or (= old-game new-game) (valid-next-game? old-game new-game))
+      )))
 
 (defspec next-player-at-start
   100
