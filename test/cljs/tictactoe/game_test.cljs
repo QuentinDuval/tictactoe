@@ -50,18 +50,29 @@
 ;; Generators
 ;; ----------------------------------------------------------------------------
 
+(def coord-gen
+  (gen/elements cst/coordinates))
+
 (def player-gen
   (gen/elements #{:cell/cross :cell/circle}))
 
 (def cell-gen
   (gen/elements #{:cell/empty :cell/cross :cell/circle}))
 
+;; Board gen is not the way to go => does not allow to have valid states
+;; And you would have to generate too much things (game, etc...)
 (def board-gen
   (apply gen/hash-map
     (interleave
       cst/coordinates
       (repeat cst/cell-count cell-gen)
       )))
+
+#_(def game-gen
+  (gen/let [nb (gen/int)
+            xy (gen/sample coord-gen nb)]
+    (play-moves (logic/new-game) xy)
+    ))
 
 
 ;; ----------------------------------------------------------------------------
@@ -103,23 +114,24 @@
       (= (count-cells next-player old-game) (count-cells next-player new-game))
       )))
 
-(defn valid-on-move-reaction
+(defn valid-move-properties
   [old-game]
-  (prop/for-all [[x y] (gen/elements cst/coordinates)]
+  (prop/for-all [[x y] coord-gen]
     (let [new-game (logic/on-move old-game x y)]
       (or (= old-game new-game) (valid-next-game? old-game new-game))
       )))
 
-(defspec next-player-at-start
-  100
-  (valid-on-move-reaction (logic/new-game)))
+(defspec next-player-at-start 100
+  (valid-move-properties (logic/new-game)))
 
-(defspec try-move-for-any-board
-  100
-  (prop/for-all [b board-gen]
-    (valid-on-move-reaction b)))
+(defspec try-move-for-any-board 100
+  (prop/for-all [coords (gen/vector coord-gen 0 cst/cell-count)]
+    (valid-move-properties (play-moves (logic/new-game) coords))
+    ))
 
 
+;; ----------------------------------------------------------------------------
 ;; Running the tests
+;; ----------------------------------------------------------------------------
 
 (test/run-tests)
