@@ -4,7 +4,6 @@
     [clojure.test.check.clojure-test :refer [defspec]]
     )
   (:require
-    ;;[tictactoe.common-test]
     [cljs.test :as test]
     [clojure.test.check :as tc]
     [clojure.test.check.generators :as gen]
@@ -36,10 +35,7 @@
 
 (defn play-moves
   [init-game moves]
-  (reduce
-    (fn [game [x y]] (logic/on-move game x y))
-    init-game
-    moves))
+  (reduce logic/on-move init-game moves))
 
 
 ;; ----------------------------------------------------------------------------
@@ -131,15 +127,15 @@
 
 (defn valid-move-properties
   [old-game]
-  (prop/for-all [[x y] coord-gen]
-    (let [new-game (logic/on-move old-game x y)]
-      (or (= old-game new-game) (valid-next-game? old-game new-game [x y]))
+  (prop/for-all [move coord-gen]
+    (let [new-game (logic/on-move old-game move)]
+      (or (= old-game new-game) (valid-next-game? old-game new-game move))
       )))
 
 (defn valid-undo-properties
   [old-game]
-  (prop/for-all [[x y] coord-gen]
-    (let [new-game (logic/on-move old-game x y)]
+  (prop/for-all [move coord-gen]
+    (let [new-game (logic/on-move old-game move)]
       (or
         (= old-game new-game)
         (= old-game (logic/on-undo new-game))

@@ -55,7 +55,7 @@
 
 (defn on-move
   "On reception of the move command"
-  [game-state x y]
+  [game-state [x y]]
   (let [current (peek game-state)]
     (if (valid-move? current x y)
       (conj game-state (on-valid-move current x y))
