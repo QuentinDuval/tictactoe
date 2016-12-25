@@ -119,13 +119,14 @@
 
 (defn valid-next-game?
   [old-game new-game move]
-  (let [next-player (logic/get-next-player new-game)
-        prev-player (logic/get-next-player old-game)]
+  (let [new-player (logic/get-next-player new-game)
+        old-player (logic/get-next-player old-game)
+        new-board (logic/get-board new-game)
+        old-board (logic/get-board old-game)]
     (and
-      (not= prev-player next-player)
-      (= prev-player (get (logic/get-board new-game) move))
-      (= (dissoc (logic/get-board old-game) move)
-        (dissoc (logic/get-board new-game) move))
+      (not= old-player new-player)
+      (= old-player (get new-board move))
+      (= (dissoc old-board move) (dissoc new-board move))
       )))
 
 (defn valid-move-properties
