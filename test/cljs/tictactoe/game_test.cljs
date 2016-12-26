@@ -84,16 +84,16 @@
 ;; - The test should be based on visible API only: it means we should not
 ;; try to generate the internal state of the game. It would breach
 ;; encapsulation, and would thus break at any implementation change.
-(def coord-gen
+(def move-gen
   (gen/elements cst/coordinates))
 
 (def game-gen
   (gen/fmap
     #(play-moves (logic/new-game) %)
-    (gen/vector coord-gen 0 cst/cell-count)
+    (gen/vector move-gen 0 cst/cell-count)
     ))
 
-;; The following are all bad ideas
+;; The following are all bad ideas to base our game generation upon
 
 (def player-gen
   (gen/elements #{:cell/cross :cell/circle}))
@@ -113,7 +113,7 @@
 ;; Generative testing
 ;; ----------------------------------------------------------------------------
 
-(defn valid-next-game?
+(defn valid-game-transition?
   [old-game new-game move]
   (let [new-player (logic/get-next-player new-game)
         old-player (logic/get-next-player old-game)
@@ -126,16 +126,16 @@
       (= (dissoc old-board move) (dissoc new-board move))
       )))
 
-(defn valid-move-properties
+(defn game-move-properties
   [old-game]
-  (prop/for-all [move coord-gen]
+  (prop/for-all [move move-gen]
     (let [new-game (logic/on-move old-game move)]
-      (or (= old-game new-game) (valid-next-game? old-game new-game move))
+      (or (= old-game new-game) (valid-game-transition? old-game new-game move))
       )))
 
-(defn valid-undo-properties
+(defn game-undo-properties
   [old-game]
-  (prop/for-all [move coord-gen]
+  (prop/for-all [move move-gen]
     (let [new-game (logic/on-move old-game move)]
       (or
         (= old-game new-game)
@@ -143,13 +143,13 @@
         ))))
 
 (defspec try-move-from-start-game 100
-  (valid-move-properties (logic/new-game)))
+  (game-move-properties (logic/new-game)))
 
 (defspec try-move-from-valid-game 100
-  (prop/for-all [g game-gen] (valid-move-properties g)))
+  (prop/for-all [g game-gen] (game-move-properties g)))
 
 (defspec try-undo-from-valid-game 100
-  (prop/for-all [g game-gen] (valid-undo-properties g)))
+  (prop/for-all [g game-gen] (game-undo-properties g)))
 
 
 ;; ----------------------------------------------------------------------------
