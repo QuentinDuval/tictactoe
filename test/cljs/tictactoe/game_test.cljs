@@ -121,6 +121,7 @@
         old-board (logic/get-board old-game)]
     (and
       (not= old-player new-player)
+      (= :cell/empty (get old-board move))
       (= old-player (get new-board move))
       (= (dissoc old-board move) (dissoc new-board move))
       )))
