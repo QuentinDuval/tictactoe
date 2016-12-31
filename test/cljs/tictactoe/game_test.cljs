@@ -44,34 +44,39 @@
 
 (deftest test-init-game
   (let [init-game (logic/new-game)]
-    (is (not (logic/game-over? init-game)))
-    (is (= cst/cell-count (count-empty-cells init-game)))
+    (testing "New game is not over yet"
+      (is (not (logic/game-over? init-game))))
+    (testing "All cells are empty"
+      (is (= cst/cell-count (count-empty-cells init-game))))
     ))
 
 (deftest test-game-over
   (let [init-game (logic/new-game)
         end-game (play-moves init-game cst/coordinates)]
-    (is (logic/game-over? end-game))
-    (is (> cst/cell-count (count-empty-cells end-game)))
+    (testing "Playing all coordinates results in game over"
+      (is (logic/game-over? end-game)))
+    (testing "To be game over, some cells have to be taken"
+      (is (> cst/cell-count (count-empty-cells end-game))))
     ))
 
 (deftest test-undo-all
   (let [init-game (logic/new-game)
         end-game (play-moves init-game cst/coordinates)
         undo-game (reduce #(logic/on-undo %1) end-game cst/coordinates)]
-    (is (logic/game-over? end-game))
-    (is (= init-game undo-game))
+    (testing "Rollbacking all moves should yield the initial game"
+      (is (= init-game undo-game)))
     ))
 
 (deftest test-winning-line
   (doseq [i (range (dec cst/board-size))]
-    (let [hor-moves (interleave (nth cst/rows i) (nth cst/rows (inc i)))
-          ver-moves (interleave (nth cst/cols i) (nth cst/cols (inc i)))
-          game-1 (play-moves (logic/new-game) hor-moves)
-          game-2 (play-moves (logic/new-game) ver-moves)]
-      (is (logic/game-over? game-1))
-      (is (logic/game-over? game-2))
-      )))
+    (testing "If each player plays one row, the first player will win"
+      (let [hor-moves (interleave (nth cst/rows i) (nth cst/rows (inc i)))
+            end-game (play-moves (logic/new-game) hor-moves)]
+        (is (logic/game-over? end-game))))
+    (testing "If each player plays one column, the first player will win"
+      (let [ver-moves (interleave (nth cst/cols i) (nth cst/cols (inc i)))
+            game-2 (play-moves (logic/new-game) ver-moves)]
+        (is (logic/game-over? game-2))))))
 
 
 ;; ----------------------------------------------------------------------------
