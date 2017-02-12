@@ -6,6 +6,10 @@
     ))
 
 
+(defmulti render-cell
+  "Dispatch the rendering of the cell based on the player"
+  (fn [type cell-pos options] type))
+
 (defn render-board
   "Render the board:
    * Creates a SVG panel
@@ -16,5 +20,17 @@
       {:pixel-size cst/board-pixel-size
        :model-size board-cell-size})
     (for [[cell-pos cell-owner] board]
-      [cell/render-cell cell-owner cell-pos {:on-click #(on-move cell-pos)}]
+      [render-cell cell-owner cell-pos {:on-click #(on-move cell-pos)}]
       )))
+
+(defmethod render-cell :cell/empty
+  [_ cell-pos options]
+  (cell/render-square cell-pos options))
+
+(defmethod render-cell :cell/circle
+  [_ cell-pos options]
+  (cell/render-circle cell-pos options))
+
+(defmethod render-cell :cell/cross
+  [_ cell-pos options]
+  (cell/render-cross cell-pos options))

@@ -4,22 +4,18 @@
     ))
 
 
-(defmulti render-cell
-  (fn [type [x y] options] type))
-
-(defmethod render-cell :cell/empty
-  [_ [x y] options]
+(defn render-square
+  [[x y] options]
   [:rect
    (merge {:x (+ cst/cell-relative-margin x)
            :y (+ cst/cell-relative-margin y)
            :width cst/cell-relative-size
            :height cst/cell-relative-size
            :fill cst/empty-cell-background}
-     options)
-   ])
+     options)])
 
-(defmethod render-cell :cell/circle
-  [_ [x y] options]
+(defn render-circle
+  [[x y] options]
   [:circle
    (merge {:cx (+ cst/cell-relative-middle x)
            :cy (+ cst/cell-relative-middle y)
@@ -27,8 +23,7 @@
            :fill cst/non-empty-cell-background
            :stroke-width cst/stroke-width
            :stroke cst/circle-cell-color}
-     options)
-   ])
+     options)])
 
 (defn- draw-cross-line
   [[x y] [dx dy] options]
@@ -40,8 +35,8 @@
           :stroke cst/rectangle-cell-color}
    ])
 
-(defmethod render-cell :cell/cross
-  [_ [x y] options]
+(defn render-cross
+  [[x y] options]
   [:g
    [draw-cross-line [(+ x cst/cell-relative-margin) (+ y cst/cell-relative-margin)] [1 1]]
    [draw-cross-line [(+ x cst/cell-relative-margin) (+ y (- 1 cst/cell-relative-margin))] [1 -1]]
