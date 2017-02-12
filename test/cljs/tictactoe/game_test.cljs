@@ -35,7 +35,7 @@
 
 (defn play-moves
   [init-game moves]
-  (reduce logic/on-move init-game moves))
+  (reduce logic/play-move init-game moves))
 
 
 ;; ----------------------------------------------------------------------------
@@ -120,8 +120,8 @@
 
 (defn valid-game-transition?
   [old-game new-game move]
-  (let [new-player (logic/get-next-player new-game)
-        old-player (logic/get-next-player old-game)
+  (let [new-player (logic/get-player new-game)
+        old-player (logic/get-player old-game)
         new-board (logic/get-board new-game)
         old-board (logic/get-board old-game)]
     (and
@@ -134,14 +134,14 @@
 (defn game-move-properties
   [old-game]
   (prop/for-all [move move-gen]
-    (let [new-game (logic/on-move old-game move)]
+    (let [new-game (logic/play-move old-game move)]
       (or (= old-game new-game) (valid-game-transition? old-game new-game move))
       )))
 
 (defn game-undo-properties
   [old-game]
   (prop/for-all [move move-gen]
-    (let [new-game (logic/on-move old-game move)]
+    (let [new-game (logic/play-move old-game move)]
       (or
         (= old-game new-game)
         (= old-game (logic/on-undo new-game))

@@ -4,16 +4,12 @@
     ))
 
 
-;; --------------------------------------------------------
-;; Game logic (public)
-;; --------------------------------------------------------
-
 (defn new-game
   "Create a new fresh game, with empty board and no history"
   []
   [turn/start-turn])
 
-(defn on-move
+(defn play-move
   "On reception of the move command"
   [game-state [x y]]
   (let [current (peek game-state)]
@@ -28,17 +24,6 @@
     (pop game-state)
     game-state))
 
-(defn get-board
-  "Get the current board of the game"
-  [game-state]
-  (:board (peek game-state)))
-
-(defn get-next-player
-  "Get the next player to play"
-  [game-state]
-  (:player (peek game-state)))
-
-(defn game-over?
-  "Indicates whether the game is over"
-  [game-state]
-  (turn/game-over? (peek game-state)))
+(def get-board (comp :board peek))
+(def get-player (comp :player peek))
+(def game-over? (comp turn/game-over? peek))
