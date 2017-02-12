@@ -1,18 +1,21 @@
-(ns tictactoe.view.panel)
+(ns tictactoe.view.panel
+  (:require
+    [tictactoe.view.utils :as utils]
+    ))
 
-
-(defn- special-char
-  [str-code]
-  [:div {:dangerouslySetInnerHTML {:__html str-code}}])
 
 (defn- top-button
   [on-click txt]
   [:button.top-button {:on-click on-click} txt])
 
 (defn render-top-panel
+  "Render the top panel:
+   * The restart game button
+   * The title of the game
+   * The undo button"
   [{:keys [on-restart on-undo]}]
   [:div.scores
-   [top-button on-restart (special-char "&#x21bb;")]
+   [top-button on-restart utils/circle-arrow]
    [:h1#title "Tic Tac Toe"]
-   [top-button on-undo (special-char "&larr;")]
+   [top-button on-undo utils/back-arrow]
    ])
