@@ -1,5 +1,6 @@
 (ns tictactoe.logic.game
   (:require
+    [tictactoe.logic.board :as board]
     [tictactoe.logic.constants :as cst]
     [tictactoe.utils :as utils]
     ))
@@ -8,10 +9,6 @@
 ;; --------------------------------------------------------
 ;; Game logic (private)
 ;; --------------------------------------------------------
-
-(defn- convert-cell
-  [board player x y]
-  (assoc board [x y] player))
 
 (defn- next-player [current]
   (if (= :cell/cross current) :cell/circle :cell/cross))
@@ -28,18 +25,14 @@
   [board]
   (some #(winning-line? board %) cst/lines))
 
-(defn- is-empty-cell?
-  [board x y]
-  (= (get board [x y]) :cell/empty))
-
 (defn- valid-move?
   [{:keys [board] :as current} x y]
-  (and (is-empty-cell? board x y) (not (has-winner? board))))
+  (and (board/empty-cell? board x y) (not (has-winner? board))))
 
 (defn- on-valid-move
   [current x y]
   (-> current
-    (update :board convert-cell (:player current) x y)
+    (update :board board/convert-cell (:player current) x y)
     (update :player next-player)
     ))
 
