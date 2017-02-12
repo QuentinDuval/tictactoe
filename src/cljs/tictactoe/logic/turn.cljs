@@ -37,7 +37,7 @@
 (defn valid-move?
   [{:keys [board] :as current} x y]
   (and
-    (board/empty-cell? board x y)
+    (board/empty-position? board x y)
     (not (has-winner? board))))
 
 (defn play-move
@@ -50,6 +50,6 @@
 (defn game-over?
   [turn]
   (or
-    (board/has-empty-cell? (:board turn))
+    (board/full? (:board turn))
     (has-winner? (:board turn))
     ))

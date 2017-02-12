@@ -12,10 +12,10 @@
   [board player x y]
   (assoc board [x y] player))
 
-(defn empty-cell?
+(defn empty-position?
   [board x y]
   (= (get board [x y]) :cell/empty))
 
-(defn has-empty-cell?
+(defn full?
   [board]
   (not-any? #{:cell/empty} (map second board)))

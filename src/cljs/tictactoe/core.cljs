@@ -18,9 +18,8 @@
       :on-undo store/on-undo-event})
    (board/render-board
      @store/current-board
-     cst/board-size
-     store/on-move-event)
-   ])
+     cst/board-size                                         ;; TODO should be in board
+     store/on-move-event)])
 
 (reagent/render
   [tic-tac-toe]
