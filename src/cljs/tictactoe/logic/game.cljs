@@ -1,7 +1,6 @@
 (ns tictactoe.logic.game
   (:require
-    [tictactoe.logic.turn :as turn]
-    ))
+    [tictactoe.logic.turn :as turn]))
 
 
 (defn new-game

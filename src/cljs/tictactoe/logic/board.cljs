@@ -1,7 +1,6 @@
 (ns tictactoe.logic.board
   (:require
-    [tictactoe.logic.constants :as cst]
-    ))
+    [tictactoe.logic.constants :as cst]))
 
 
 (defn new-empty-board
