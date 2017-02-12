@@ -1,6 +1,10 @@
 (ns tictactoe.store
   (:require
+    [reagent.core :as reagent]
     [tictactoe.logic.game :as logic]
+    )
+  (:require-macros
+    [reagent.ratom :refer [reaction]]
     ))
 
 ;; --------------------------------------------------------

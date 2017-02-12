@@ -4,10 +4,7 @@
     [tictactoe.view.board :as board]
     [tictactoe.view.panel :as panel]
     [tictactoe.logic.constants :as cst]
-    [tictactoe.store :as store])
-  (:require-macros
-    [reagent.ratom :refer [reaction]]
-    ))
+    [tictactoe.store :as store]))
 
 
 (defn tic-tac-toe
