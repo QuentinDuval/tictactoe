@@ -11,7 +11,9 @@
 
 
 (defn tic-tac-toe
-  "Main rendering entry: assemble the game logic, the view and control"
+  "Main entry point, assemble:
+   * the game state
+   * the game view"
   []
   [:div
    (panel/render-top-panel
