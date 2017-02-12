@@ -1,6 +1,7 @@
 (ns tictactoe.logic.board
   (:require
-    [tictactoe.logic.constants :as cst]))
+    [tictactoe.logic.constants :as cst]
+    [tictactoe.utils :as utils]))
 
 
 (defn new-empty-board
@@ -18,6 +19,14 @@
 (defn full?
   [board]
   (not-any? #{:cell/empty} (map second board)))
+
+(defn one-owner?
+  [board positions]
+  (let [owners (utils/get-all board positions)]
+    (and
+      (not-any? #{:cell/empty} owners)
+      (= 1 (count (set owners)))
+      )))
 
 (defn get-size [_] cst/board-size)
 (defn get-cells [board] board)

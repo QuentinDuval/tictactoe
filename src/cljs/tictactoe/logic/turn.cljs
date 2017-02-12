@@ -1,8 +1,7 @@
 (ns tictactoe.logic.turn
   (:require
     [tictactoe.logic.board :as board]
-    [tictactoe.logic.constants :as cst]
-    [tictactoe.utils :as utils]))
+    [tictactoe.logic.constants :as cst]))
 
 
 ;; --------------------------------------------------------
@@ -12,17 +11,9 @@
 (defn- next-player [current]
   (if (= :cell/cross current) :cell/circle :cell/cross))
 
-(defn- winning-line?
-  [board line]
-  (let [owners (utils/get-all board line)]
-    (and
-      (not-any? #{:cell/empty} owners)
-      (= 1 (count (set owners)))
-      )))
-
 (defn- has-winner?
   [board]
-  (some #(winning-line? board %) cst/lines))
+  (some #(board/one-owner? board %) cst/lines))
 
 
 ;; --------------------------------------------------------
