@@ -19,3 +19,6 @@
 (defn full?
   [board]
   (not-any? #{:cell/empty} (map second board)))
+
+(defn get-size [_] cst/board-size)
+(defn get-cells [board] board)

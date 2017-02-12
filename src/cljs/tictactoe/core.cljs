@@ -3,7 +3,6 @@
     [reagent.core :as reagent]
     [tictactoe.view.board :as board]
     [tictactoe.view.panel :as panel]
-    [tictactoe.logic.constants :as cst]
     [tictactoe.store :as store]))
 
 
@@ -18,7 +17,6 @@
       :on-undo store/on-undo-event})
    (board/render-board
      @store/current-board
-     cst/board-size                                         ;; TODO should be in board
      store/on-move-event)])
 
 (reagent/render
