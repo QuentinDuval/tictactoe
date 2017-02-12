@@ -1,7 +1,6 @@
 (ns tictactoe.logic.constants
   (:require
-    [tictactoe.utils :as utils]
-    ))
+    [tictactoe.utils :as utils]))
 
 
 (def board-size 3)
@@ -14,9 +13,7 @@
 (def cell-count (count coordinates))
 
 (def empty-board
-  (into {}
-    (map (fn [c] [c :cell/empty]))
-    coordinates))
+  (into {} (utils/zip coordinates (repeat :cell/empty))))
 
 (def diags
   [(filter #(= (first %) (second %)) coordinates)

@@ -10,3 +10,7 @@
   "Get all the values associated to the key"
   [col keys]
   (eduction (map #(get col %)) keys))
+
+(defn zip
+  [& colls]
+  (apply map vector colls))

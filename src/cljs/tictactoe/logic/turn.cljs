@@ -2,8 +2,7 @@
   (:require
     [tictactoe.logic.board :as board]
     [tictactoe.logic.constants :as cst]
-    [tictactoe.utils :as utils]
-    ))
+    [tictactoe.utils :as utils]))
 
 
 ;; --------------------------------------------------------
