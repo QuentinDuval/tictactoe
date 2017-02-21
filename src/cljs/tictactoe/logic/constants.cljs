@@ -6,9 +6,7 @@
 (def board-size 3)
 
 (def coordinates
-  (for [x (range board-size)
-        y (range board-size)]
-    [x y]))
+  (for [x (range board-size) y (range board-size)] [x y]))
 
 (def cell-count (count coordinates))
 
