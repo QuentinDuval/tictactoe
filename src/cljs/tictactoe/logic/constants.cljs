@@ -12,9 +12,6 @@
 
 (def cell-count (count coordinates))
 
-(def empty-board
-  (zipmap coordinates (repeat :cell/empty)))
-
 (def diags
   [(filter #(= (first %) (second %)) coordinates)
    (filter #(= (dec board-size) (reduce + %)) coordinates)])

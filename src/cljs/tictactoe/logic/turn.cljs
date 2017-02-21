@@ -21,7 +21,7 @@
 ;; --------------------------------------------------------
 
 (def start-turn
-  {:board cst/empty-board
+  {:board (board/new-empty-board)
    :player :cell/cross})
 
 (defn game-over?

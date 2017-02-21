@@ -6,7 +6,7 @@
 
 (defn new-empty-board
   []
-  cst/empty-board)
+  (zipmap cst/coordinates (repeat :cell/empty)))
 
 (defn convert-cell
   "Assign the cell [x y] to a new player"
