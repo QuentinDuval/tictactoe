@@ -4,7 +4,7 @@
     ))
 
 
-(defn- top-button
+(defn- make-button
   [on-click txt]
   [:button.top-button {:on-click on-click} txt])
 
@@ -15,7 +15,7 @@
    * The undo button"
   [{:keys [on-restart on-undo]}]
   [:div.scores
-   [top-button on-restart utils/circle-arrow]
+   [make-button on-restart utils/circle-arrow]
    [:h1#title "Tic Tac Toe"]
-   [top-button on-undo utils/back-arrow]
+   [make-button on-undo utils/back-arrow]
    ])
