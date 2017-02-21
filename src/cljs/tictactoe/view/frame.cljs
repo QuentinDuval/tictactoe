@@ -7,10 +7,7 @@
 (defn render
   "Rendering the main frame of the game,
    takes as input the callbacks to trigger events"
-  [board {:keys [on-restart-event on-undo-event on-move-event]}]
+  [board callbacks]
   [:div
-   (panel/render-top-panel
-     {:on-restart-event on-restart-event
-      :on-undo-event on-undo-event})
-   (board/render-board board
-     {:on-move-event on-move-event})])
+   (panel/render-top-panel callbacks)
+   (board/render-board board callbacks)])
