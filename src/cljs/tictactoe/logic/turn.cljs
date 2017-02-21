@@ -20,6 +20,8 @@
 ;; Game logic (public)
 ;; --------------------------------------------------------
 
+;; TODO - Add spec for the model?
+
 (def start-turn
   {:board (board/new-empty-board)
    :player :cell/cross})
