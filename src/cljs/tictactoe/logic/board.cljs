@@ -4,6 +4,8 @@
     [tictactoe.utils.algo :as algo]))
 
 ;; TODO - Add spec?
+;; TODO - Defrecord?
+;; TODO - Concentrate on the turn, no need to show the all board implementation
 
 (defn new-empty-board
   []
