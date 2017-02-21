@@ -15,13 +15,13 @@
   "Render the board:
    * Creates a SVG panel
    * Render the cells in it"
-  [board on-move]
+  [board {:keys [on-move-event]}]
   (into
     (utils/square-svg-panel
       {:pixel-size cst/board-pixel-size
        :model-size (board/get-size board)})
     (for [[cell-pos cell-owner] (board/get-cells board)]
-      [render-cell cell-owner cell-pos {:on-click #(on-move cell-pos)}]
+      [render-cell cell-owner cell-pos {:on-click #(on-move-event cell-pos)}]
       )))
 
 (defmethod render-cell :cell/empty
