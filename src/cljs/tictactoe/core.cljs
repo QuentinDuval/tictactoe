@@ -11,8 +11,8 @@
    * the game view"
   []
   [frame/render @store/current-board
-   {:on-restart store/on-restart-event
-    :on-undo store/on-undo-event
+   {:on-restart-event store/on-restart-event
+    :on-undo-event store/on-undo-event
     :on-move-event store/on-move-event}])
 
 (reagent/render [tic-tac-toe]

@@ -13,9 +13,9 @@
    * The restart game button
    * The title of the game
    * The undo button"
-  [{:keys [on-restart on-undo]}]
+  [{:keys [on-restart-event on-undo-event]}]
   [:div.scores
-   [make-button on-restart utils/circle-arrow]
+   [make-button on-restart-event utils/circle-arrow]
    [:h1#title "Tic Tac Toe"]
-   [make-button on-undo utils/back-arrow]
+   [make-button on-undo-event utils/back-arrow]
    ])

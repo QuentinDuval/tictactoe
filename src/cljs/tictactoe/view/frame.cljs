@@ -10,7 +10,7 @@
   [board {:keys [on-restart-event on-undo-event on-move-event]}]
   [:div
    (panel/render-top-panel
-     {:on-restart on-restart-event
-      :on-undo on-undo-event})
+     {:on-restart-event on-restart-event
+      :on-undo-event on-undo-event})
    (board/render-board board
      {:on-move-event on-move-event})])
