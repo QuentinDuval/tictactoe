@@ -1,6 +1,6 @@
 (ns tictactoe.view.panel
   (:require
-    [tictactoe.view.utils :as utils]
+    [tictactoe.view.svg.utils :as utils]
     ))
 
 

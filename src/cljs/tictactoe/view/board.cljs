@@ -1,9 +1,9 @@
 (ns tictactoe.view.board
   (:require
     [tictactoe.logic.board :as board]
-    [tictactoe.view.svg.cell :as cell]
     [tictactoe.view.constants :as cst]
-    [tictactoe.view.utils :as utils]
+    [tictactoe.view.svg.cell :as cell]
+    [tictactoe.view.svg.utils :as utils]
     ))
 
 

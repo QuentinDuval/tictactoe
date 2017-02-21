@@ -1,4 +1,4 @@
-(ns tictactoe.view.utils)
+(ns tictactoe.view.svg.utils)
 
 
 (defn square-svg-panel
