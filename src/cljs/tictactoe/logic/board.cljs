@@ -1,7 +1,7 @@
 (ns tictactoe.logic.board
   (:require
     [tictactoe.logic.constants :as cst]
-    [tictactoe.utils :as utils]))
+    [tictactoe.utils.algo :as algo]))
 
 
 (defn new-empty-board
@@ -26,7 +26,7 @@
 (defn same-owner?
   "Indicates whether all positions are owned by the same player"
   [board positions]
-  (let [owners (utils/get-all board positions)]
+  (let [owners (algo/get-all board positions)]
     (and
       (not-any? #{:cell/empty} owners)
       (= 1 (count (set owners)))

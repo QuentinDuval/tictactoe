@@ -1,6 +1,6 @@
 (ns tictactoe.logic.constants
   (:require
-    [tictactoe.utils :as utils]))
+    [tictactoe.utils.algo :as algo]))
 
 
 (def board-size 3)
@@ -15,5 +15,5 @@
    (filter #(= (dec board-size) (reduce + %)) coordinates)])
 
 (def rows (partition board-size coordinates))
-(def cols (utils/transpose rows))
+(def cols (algo/transpose rows))
 (def lines (concat rows cols diags))

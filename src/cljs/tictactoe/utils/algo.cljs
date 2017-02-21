@@ -1,4 +1,4 @@
-(ns tictactoe.utils)
+(ns tictactoe.utils.algo)
 
 
 (defn transpose
