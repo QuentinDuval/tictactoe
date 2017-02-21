@@ -1,7 +1,6 @@
 (ns tictactoe.view.svg.cell
   (:require
-    [tictactoe.view.constants :as cst]
-    ))
+    [tictactoe.view.svg.constants :as cst]))
 
 
 (defn render-square

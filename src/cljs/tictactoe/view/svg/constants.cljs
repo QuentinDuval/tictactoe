@@ -1,4 +1,4 @@
-(ns tictactoe.view.constants)
+(ns tictactoe.view.svg.constants)
 
 
 (def cell-relative-size 0.9)
