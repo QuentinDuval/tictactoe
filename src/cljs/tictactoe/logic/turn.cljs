@@ -13,7 +13,7 @@
 
 (defn- has-winner?
   [board]
-  (some #(board/one-owner? board %) cst/lines))
+  (some #(board/same-owner? board %) cst/lines))
 
 
 ;; --------------------------------------------------------
@@ -27,13 +27,13 @@
 (defn game-over?
   [turn]
   (or
-    (board/full? (:board turn))
+    (board/full-board? (:board turn))
     (has-winner? (:board turn))))
 
 (defn valid-move?
   [turn x y]
   (and
-    (board/empty-position? (:board turn) x y)
+    (board/empty-cell? (:board turn) x y)
     (not (game-over? turn))))
 
 (defn play-move

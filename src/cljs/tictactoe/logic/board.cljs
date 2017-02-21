@@ -9,18 +9,22 @@
   cst/empty-board)
 
 (defn convert-cell
+  "Assign the cell [x y] to a new player"
   [board player x y]
   (assoc board [x y] player))
 
-(defn empty-position?
+(defn empty-cell?
+  "Check whether the cell [x y] is empty"
   [board x y]
   (= (get board [x y]) :cell/empty))
 
-(defn full?
+(defn full-board?
+  "Verifies whether the board has any empty cell left"
   [board]
   (not-any? #{:cell/empty} (map second board)))
 
-(defn one-owner?
+(defn same-owner?
+  "Indicates whether all positions are owned by the same player"
   [board positions]
   (let [owners (utils/get-all board positions)]
     (and
