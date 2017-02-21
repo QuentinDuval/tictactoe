@@ -15,6 +15,5 @@
     :on-undo store/on-undo-event
     :on-move-event store/on-move-event}])
 
-(reagent/render
-  [tic-tac-toe]
+(reagent/render [tic-tac-toe]
   (js/document.getElementById "app"))

@@ -13,7 +13,7 @@
 (def cell-count (count coordinates))
 
 (def empty-board
-  (into {} (utils/zip coordinates (repeat :cell/empty))))
+  (zipmap coordinates (repeat :cell/empty)))
 
 (def diags
   [(filter #(= (first %) (second %)) coordinates)
