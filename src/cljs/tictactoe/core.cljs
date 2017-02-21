@@ -5,6 +5,8 @@
     [tictactoe.store :as store]))
 
 
+;; TODO - Add message to indicate winner
+
 (defn tic-tac-toe
   "Main entry point, assemble:
    * the game state
