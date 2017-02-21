@@ -3,6 +3,7 @@
     [tictactoe.logic.constants :as cst]
     [tictactoe.utils.algo :as algo]))
 
+;; TODO - Add spec?
 
 (defn new-empty-board
   []
