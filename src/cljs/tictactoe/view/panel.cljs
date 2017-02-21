@@ -1,7 +1,6 @@
 (ns tictactoe.view.panel
   (:require
-    [tictactoe.view.svg.utils :as utils]
-    ))
+    [tictactoe.view.svg.utils :as utils]))
 
 
 (defn- make-button

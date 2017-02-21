@@ -19,12 +19,12 @@
   (into
     (utils/square-svg-panel
       {:pixel-size cst/board-pixel-size
-       :model-size (board/get-size board)})
+       :model-size (board/get-size board)})                 ;; TODO - factorize out
     (for [[cell-pos cell-owner] (board/get-cells board)]
       [render-cell cell-owner cell-pos {:on-click #(on-move-event cell-pos)}]
       )))
 
-(defmethod render-cell :cell/empty
+(defmethod render-cell :cell/empty                          ;; TODO - Hide this
   [_ cell-pos options]
   (cell/render-square cell-pos options))
 
