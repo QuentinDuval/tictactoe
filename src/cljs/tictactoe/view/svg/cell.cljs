@@ -1,4 +1,4 @@
-(ns tictactoe.view.cell
+(ns tictactoe.view.svg.cell
   (:require
     [tictactoe.view.constants :as cst]
     ))
