@@ -1,17 +1,13 @@
 (ns tictactoe.view.frame
   (:require
     [tictactoe.view.board :as board]
-    [tictactoe.view.panel :as panel]
-    [tictactoe.store :as store]
-    ))
+    [tictactoe.view.panel :as panel]))
+
 
 (defn render
-  "Rendering the main frame of the game"
-  [board]
+  "Rendering the main frame of the game, takes as input the callbacks to trigger events"
+  [board {:keys [on-restart-event on-undo-event on-move-event]}]
   [:div
    (panel/render-top-panel
-     {:on-restart store/on-restart-event                    ;; TODO - remove deps
-      :on-undo store/on-undo-event})
-   (board/render-board
-     board
-     store/on-move-event)])
+     {:on-restart on-restart-event :on-undo on-undo-event})
+   (board/render-board board on-move-event)])

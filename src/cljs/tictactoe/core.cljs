@@ -10,7 +10,10 @@
    * the game state
    * the game view"
   []
-  [frame/render @store/current-board])
+  [frame/render @store/current-board
+   {:on-restart store/on-restart-event
+    :on-undo store/on-undo-event
+    :on-move-event store/on-move-event}])
 
 (reagent/render
   [tic-tac-toe]
