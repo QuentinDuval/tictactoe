@@ -9,5 +9,5 @@
    takes as input the callbacks to trigger events"
   [board callbacks]
   [:div
-   (panel/render-top-panel callbacks)
-   (board/render-board board callbacks)])
+   [panel/render-top-panel callbacks]
+   [board/render-board board callbacks]])
