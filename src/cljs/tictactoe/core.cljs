@@ -1,8 +1,7 @@
 (ns tictactoe.core
   (:require
     [reagent.core :as reagent]
-    [tictactoe.view.board :as board]
-    [tictactoe.view.panel :as panel]
+    [tictactoe.view.frame :as frame]
     [tictactoe.store :as store]))
 
 
@@ -11,13 +10,7 @@
    * the game state
    * the game view"
   []
-  [:div
-   (panel/render-top-panel
-     {:on-restart store/on-restart-event
-      :on-undo store/on-undo-event})
-   (board/render-board
-     @store/current-board
-     store/on-move-event)])
+  [frame/render @store/current-board])
 
 (reagent/render
   [tic-tac-toe]
