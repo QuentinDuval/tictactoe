@@ -7,7 +7,7 @@
 
 
 ;; --------------------------------------------------------
-;; Game state management
+;; Game state (game loop: use event to trigger logic)
 ;; --------------------------------------------------------
 
 (defonce app-state (reagent/atom (logic/new-game)))
