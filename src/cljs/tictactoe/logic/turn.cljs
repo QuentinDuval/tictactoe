@@ -40,6 +40,7 @@
 
 (defn play-move
   [turn x y]
-  (-> turn
-    (update :board board/convert-cell (:player turn) x y)
-    (update :player next-player)))
+  (if (valid-move? turn x y)
+    (-> turn
+      (update :board board/convert-cell (:player turn) x y)
+      (update :player next-player))))

@@ -12,8 +12,8 @@
   "On reception of the move command"
   [game-state [x y]]
   (let [current (peek game-state)]
-    (if (turn/valid-move? current x y)
-      (conj game-state (turn/play-move current x y))
+    (if-let [next-turn (turn/play-move current x y)]
+      (conj game-state next-turn)
       game-state)))
 
 (defn on-undo
@@ -25,6 +25,14 @@
 
 (def get-board (comp :board peek))
 
+(defn handle-event
+  "Callback to dispath the event on the game"
+  [game-state event]
+  (cond
+    (= event :restart) (new-game)
+    (= event :undo) (on-undo game-state)
+    :else (play-move game-state event)
+    ))
 
 
 ;; ---- TODO - remove (only there for the tests, but could be done better)
