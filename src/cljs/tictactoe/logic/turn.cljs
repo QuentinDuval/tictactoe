@@ -32,7 +32,7 @@
     (board/full-board? (:board turn))
     (has-winner? (:board turn))))
 
-(defn valid-move?
+(defn- valid-move?
   [turn x y]
   (and
     (board/empty-cell? (:board turn) x y)
