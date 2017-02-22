@@ -62,7 +62,7 @@
 (deftest test-undo-all
   (let [init-game (logic/new-game)
         end-game (play-moves init-game cst/coordinates)
-        undo-game (reduce #(logic/on-undo %1) end-game cst/coordinates)]
+        undo-game (reduce #(logic/undo-last-move %1) end-game cst/coordinates)]
     (testing "Rollbacking all moves should yield the initial game"
       (is (= init-game undo-game)))
     ))
@@ -144,7 +144,7 @@
     (let [new-game (logic/play-move old-game move)]
       (or
         (= old-game new-game)
-        (= old-game (logic/on-undo new-game))
+        (= old-game (logic/undo-last-move new-game))
         ))))
 
 (defspec try-move-from-start-game 100

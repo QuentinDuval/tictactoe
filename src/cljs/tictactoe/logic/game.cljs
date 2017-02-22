@@ -18,21 +18,21 @@
       (conj game-state next-turn)
       game-state)))
 
-(defn handle-event
-  "Callback to dispath the event on the game"
-  [game-state event]
-  (cond
-    (= event :restart) (new-game)
-    (= event :undo) (on-undo game-state)
-    :else (play-move game-state event)
-    ))
-
-(defn on-undo
+(defn undo-last-move
   "Remove the last game if there is enough game played"
   [game-state]
   (if (< 1 (count game-state))
     (pop game-state)
     game-state))
+
+(defn handle-event
+  "Callback to dispath the event on the game"
+  [game-state event]
+  (cond
+    (= event :restart) (new-game)
+    (= event :undo) (undo-last-move game-state)
+    :else (play-move game-state event)
+    ))
 
 
 
