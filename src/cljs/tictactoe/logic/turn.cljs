@@ -27,20 +27,20 @@
    :player :cell/cross})
 
 (defn game-over?
-  [turn]
+  [board]
   (or
-    (board/full-board? (:board turn))
-    (has-winner? (:board turn))))
+    (board/full-board? board)
+    (has-winner? board)))
 
 (defn- valid-move?
-  [turn x y]
+  [board x y]
   (and
-    (board/empty-cell? (:board turn) x y)
-    (not (game-over? turn))))
+    (board/empty-cell? board x y)
+    (not (game-over? board))))
 
 (defn play-move
   [turn x y]
-  (if (valid-move? turn x y)
+  (if (valid-move? (:board turn) x y)
     (-> turn
       (update :board board/convert-cell (:player turn) x y)
       (update :player next-player))))
