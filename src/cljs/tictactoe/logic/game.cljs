@@ -24,5 +24,10 @@
     game-state))
 
 (def get-board (comp :board peek))
-(def get-player (comp :player peek))                        ;; TODO - only for tests
-(def game-over? (comp turn/game-over? peek))                ;; TODO - only for tests
+
+
+
+;; ---- TODO - remove (only there for the tests, but could be done better)
+
+(def get-player (comp :player peek))
+(def game-over? (comp turn/game-over? peek))
