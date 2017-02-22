@@ -8,6 +8,8 @@
   []
   [turn/start-turn])
 
+(def get-board (comp :board peek))                          ;; TODO - output the current turn instead
+
 (defn play-move
   "On reception of the move command"
   [game-state [x y]]
@@ -15,15 +17,6 @@
     (if-let [next-turn (turn/play-move current x y)]
       (conj game-state next-turn)
       game-state)))
-
-(defn on-undo
-  "Remove the last game if there is enough game played"
-  [game-state]
-  (if (< 1 (count game-state))
-    (pop game-state)
-    game-state))
-
-(def get-board (comp :board peek))
 
 (defn handle-event
   "Callback to dispath the event on the game"
@@ -33,6 +26,14 @@
     (= event :undo) (on-undo game-state)
     :else (play-move game-state event)
     ))
+
+(defn on-undo
+  "Remove the last game if there is enough game played"
+  [game-state]
+  (if (< 1 (count game-state))
+    (pop game-state)
+    game-state))
+
 
 
 ;; ---- TODO - remove (only there for the tests, but could be done better)
