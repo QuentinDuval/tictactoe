@@ -8,10 +8,12 @@
 (defn render-one-cell
   "Dispatch the rendering of the cell based on the player"
   [type cell-pos options]
-  (case type
-    :cell/empty (cell/render-square cell-pos options)
-    :cell/cross (cell/render-cross cell-pos options)
-    :cell/circle (cell/render-circle cell-pos options)))
+  (let [renderer
+        (case type
+          :cell/empty cell/render-square
+          :cell/cross cell/render-cross
+          :cell/circle cell/render-circle)]
+    (renderer cell-pos options)))
 
 
 (defn render-board
