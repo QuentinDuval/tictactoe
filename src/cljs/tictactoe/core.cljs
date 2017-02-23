@@ -6,6 +6,8 @@
 
 
 ;; TODO - Add message to indicate winner
+;; TODO - Add ready unit tests
+;; TODO - Move constants and board - hidden in logic
 
 (defn tic-tac-toe
   "Main entry point, assemble:
