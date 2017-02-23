@@ -26,21 +26,15 @@
   {:board (board/new-empty-board)
    :player :cell/cross})
 
-(defn game-over?
-  [board]
+(defn game-over?                                            ;; TODO - Applies on board, not turn... fails the unit test
+  [{:keys [board]}]
   (or
     (board/full-board? board)
     (has-winner? board)))
 
-(defn- valid-move?
-  [board x y]
-  (and
-    (board/empty-cell? board x y)
-    (not (game-over? board))))
-
 (defn play-move
   [turn x y]
-  (if (valid-move? (:board turn) x y)
+  (if (and (board/empty-cell? (:board turn) x y) (not (game-over? turn)))
     (-> turn
       (update :board board/convert-cell (:player turn) x y)
       (update :player next-player))))
