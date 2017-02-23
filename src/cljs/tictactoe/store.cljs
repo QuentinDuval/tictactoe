@@ -12,12 +12,4 @@
 
 (defonce app-state (reagent/atom (logic/new-game)))
 (def current-board (reaction (logic/get-board @app-state)))
-
-(defn on-move-event [pos]
-  (swap! app-state logic/handle-event pos))
-
-(defn on-restart-event []
-  (swap! app-state logic/handle-event :restart))
-
-(defn on-undo-event []
-  (swap! app-state logic/handle-event :undo))
+(defn send-event! [e] (swap! app-state logic/handle-event e))
