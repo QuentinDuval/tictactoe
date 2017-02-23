@@ -8,12 +8,15 @@
   []
   [turn/start-turn])
 
-(def get-board (comp :board peek))                          ;; TODO - output the current turn instead
+(defn current-turn
+  "Access the current turn"
+  [game]
+  (peek game))
 
 (defn play-move
   "On reception of the move command"
   [game-state [x y]]
-  (let [current (peek game-state)]
+  (let [current (current-turn game-state)]
     (if-let [next-turn (turn/play-move current x y)]
       (conj game-state next-turn)
       game-state)))
@@ -38,5 +41,6 @@
 
 ;; ---- TODO - remove (only there for the tests, but could be done better)
 
+(def get-board (comp :board peek))
 (def get-player (comp :player peek))
 (def game-over? (comp turn/game-over? peek))

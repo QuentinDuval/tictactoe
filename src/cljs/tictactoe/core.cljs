@@ -14,7 +14,7 @@
    * the game state
    * the game view"
   []
-  [frame/render @store/current-board
+  [frame/render @store/current-turn
    {:on-restart-event #(store/send-event! :restart)
     :on-undo-event #(store/send-event! :undo)
     :on-move-event #(store/send-event! %)}])

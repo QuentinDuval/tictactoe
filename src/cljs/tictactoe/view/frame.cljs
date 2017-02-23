@@ -7,7 +7,7 @@
 (defn render
   "Rendering the main frame of the game,
    takes as input the callbacks to trigger events"
-  [board callbacks]
+  [{:keys [board player]} callbacks]
   [:div
    [panel/render-top-panel callbacks]
    [board/render-board board callbacks]

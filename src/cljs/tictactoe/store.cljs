@@ -11,5 +11,5 @@
 ;; --------------------------------------------------------
 
 (defonce app-state (reagent/atom (logic/new-game)))
-(def current-board (reaction (logic/get-board @app-state)))
+(def current-turn (reaction (logic/current-turn @app-state)))
 (defn send-event! [e] (swap! app-state logic/handle-event e))
