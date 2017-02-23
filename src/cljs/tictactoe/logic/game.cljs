@@ -36,11 +36,3 @@
     (= event :undo) (undo-last-move game-state)
     :else (play-move game-state event)
     ))
-
-
-
-;; ---- TODO - remove (only there for the tests, but could be done better)
-
-(def get-board (comp :board peek))
-(def get-player (comp :player peek))
-(def game-over? (comp turn/game-over? peek))

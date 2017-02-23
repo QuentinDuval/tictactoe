@@ -10,6 +10,7 @@
     [clojure.test.check.properties :as prop :include-macros true]
     [tictactoe.logic.constants :as cst]
     [tictactoe.logic.game :as logic]
+    [tictactoe.logic.turn :as turn]
     ))
 
 
@@ -17,9 +18,21 @@
 ;; Utils for the tests
 ;; ----------------------------------------------------------------------------
 
+(defn get-player
+  [game-state]
+  (get (logic/current-turn game-state) :player))
+
+(defn get-board
+  [game-state]
+  (get (logic/current-turn game-state) :board))
+
+(defn game-over?
+  [game-state]
+  (turn/game-over? (logic/current-turn game-state)))
+
 (defn get-cells
   [game-state]
-  (map second (logic/get-board game-state)))
+  (map second (get-board game-state)))
 
 (defn count-equal
   [value coll]
@@ -45,7 +58,7 @@
 (deftest test-init-game
   (let [init-game (logic/new-game)]
     (testing "New game is not over yet"
-      (is (not (logic/game-over? init-game))))
+      (is (not (game-over? init-game))))
     (testing "All cells are empty"
       (is (= cst/cell-count (count-empty-cells init-game))))
     ))
@@ -54,7 +67,7 @@
   (let [init-game (logic/new-game)
         end-game (play-moves init-game cst/coordinates)]
     (testing "Playing all coordinates results in game over"
-      (is (logic/game-over? end-game)))
+      (is (game-over? end-game)))
     (testing "To be game over, some cells have to be taken"
       (is (> cst/cell-count (count-empty-cells end-game))))
     ))
@@ -72,11 +85,11 @@
     (testing "If each player plays one row, the first player will win"
       (let [hor-moves (interleave (nth cst/rows i) (nth cst/rows (inc i)))
             end-game (play-moves (logic/new-game) hor-moves)]
-        (is (logic/game-over? end-game))))
+        (is (game-over? end-game))))
     (testing "If each player plays one column, the first player will win"
       (let [ver-moves (interleave (nth cst/cols i) (nth cst/cols (inc i)))
             game-2 (play-moves (logic/new-game) ver-moves)]
-        (is (logic/game-over? game-2))))))
+        (is (game-over? game-2))))))
 
 
 ;; ----------------------------------------------------------------------------
@@ -120,10 +133,10 @@
 
 (defn valid-game-transition?
   [old-game new-game move]
-  (let [new-player (logic/get-player new-game)
-        old-player (logic/get-player old-game)
-        new-board (logic/get-board new-game)
-        old-board (logic/get-board old-game)]
+  (let [new-player (get-player new-game)
+        old-player (get-player old-game)
+        new-board (get-board new-game)
+        old-board (get-board old-game)]
     (and
       (not= old-player new-player)
       (= :cell/empty (get old-board move))
