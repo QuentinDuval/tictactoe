@@ -5,15 +5,14 @@
     [tictactoe.view.svg.utils :as utils]))
 
 
-(defn render-cell
+(defn- render-cell
   "Dispatch the rendering of the cell based on the player"
-  [type cell-pos options]
-  (let [renderer
-        (case type
-          :cell/empty cell/render-square
-          :cell/cross cell/render-cross
-          :cell/circle cell/render-circle)]
-    (renderer cell-pos options)))
+  [type coord on-move-event]
+  (let [renderer (case type
+                   :cell/empty cell/render-square
+                   :cell/cross cell/render-cross
+                   :cell/circle cell/render-circle)]
+    (renderer coord {:on-click #(on-move-event coord)})))
 
 
 (defn render-board
@@ -24,6 +23,5 @@
   (into
     (utils/square-svg-panel board)
     (for [[coord owner] (board/get-cells board)]
-      [render-cell owner coord
-       {:on-click #(on-move-event coord)}]
+      [render-cell owner coord on-move-event]
       )))
