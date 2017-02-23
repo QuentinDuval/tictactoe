@@ -3,13 +3,10 @@
     [tictactoe.logic.turn :as turn]))
 
 
-(defn new-game
-  "Create a new fresh game, with empty board and no history"
-  []
+(defn new-game []
   [turn/start-turn])
 
 (defn current-turn
-  "Access the current turn"
   [game-state]
   (peek game-state))
 
