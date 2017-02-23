@@ -4,6 +4,11 @@
     [tictactoe.view.svg.utils :as utils]
     ))
 
+(defn- get-title
+  [turn]
+  (if (turn/game-over? turn)
+    "Game over"
+    "Tic Tac Toe"))
 
 (defn- make-button
   [on-click txt]
@@ -17,6 +22,6 @@
   [turn {:keys [on-restart-event on-undo-event]}]
   [:div.scores
    [make-button on-restart-event (utils/circle-arrow)]
-   [:h1#title (if (turn/game-over? turn) "Game over" "Tic Tac Toe")]
+   [:h1#title (get-title turn)]
    [make-button on-undo-event (utils/back-arrow)]
    ])
