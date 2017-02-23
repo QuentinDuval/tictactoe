@@ -2,14 +2,17 @@
   (:require
     [tictactoe.logic.board :as board]
     [tictactoe.view.svg.cell :as cell]
-    [tictactoe.view.svg.constants :as cst]
-    [tictactoe.view.svg.utils :as utils]
-    ))
+    [tictactoe.view.svg.utils :as utils]))
 
 
-(defmulti render-cell
+(defn render-one-cell
   "Dispatch the rendering of the cell based on the player"
-  (fn [type cell-pos options] type))
+  [type cell-pos options]
+  (case type
+    :cell/empty (cell/render-square cell-pos options)
+    :cell/cross (cell/render-cross cell-pos options)
+    :cell/circle (cell/render-circle cell-pos options)))
+
 
 (defn render-board
   "Render the board:
@@ -19,17 +22,5 @@
   (into
     (utils/square-svg-panel board)
     (for [[cell-pos cell-owner] (board/get-cells board)]
-      [render-cell cell-owner cell-pos {:on-click #(on-move-event cell-pos)}]
+      [render-one-cell cell-owner cell-pos {:on-click #(on-move-event cell-pos)}]
       )))
-
-(defmethod render-cell :cell/empty                          ;; TODO - Hide this
-  [_ cell-pos options]
-  (cell/render-square cell-pos options))
-
-(defmethod render-cell :cell/circle
-  [_ cell-pos options]
-  (cell/render-circle cell-pos options))
-
-(defmethod render-cell :cell/cross
-  [_ cell-pos options]
-  (cell/render-cross cell-pos options))
