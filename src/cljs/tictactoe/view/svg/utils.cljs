@@ -1,10 +1,14 @@
-(ns tictactoe.view.svg.utils)
+(ns tictactoe.view.svg.utils
+  (:require
+    [tictactoe.logic.board :as board]
+    [tictactoe.view.svg.constants :as cst]
+    ))
 
 
 (defn square-svg-panel
-  [options]
-  (let [pixel-size (:pixel-size options)
-        model-size (:model-size options)]
+  [board]
+  (let [pixel-size cst/board-pixel-size
+        model-size (board/get-size board)]
     [:svg.board
      {:view-box (str "0 0 " model-size " " model-size)
       :style {:max-height (str pixel-size "px")}}

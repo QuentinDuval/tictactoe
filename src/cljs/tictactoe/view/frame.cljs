@@ -10,4 +10,5 @@
   [board callbacks]
   [:div
    [panel/render-top-panel callbacks]
-   [board/render-board board callbacks]])
+   [board/render-board board callbacks]
+   ])

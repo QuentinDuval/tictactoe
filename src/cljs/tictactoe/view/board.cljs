@@ -17,9 +17,7 @@
    * Render the cells in it"
   [board {:keys [on-move-event]}]
   (into
-    (utils/square-svg-panel
-      {:pixel-size cst/board-pixel-size
-       :model-size (board/get-size board)})                 ;; TODO - factorize out
+    (utils/square-svg-panel board)
     (for [[cell-pos cell-owner] (board/get-cells board)]
       [render-cell cell-owner cell-pos {:on-click #(on-move-event cell-pos)}]
       )))
