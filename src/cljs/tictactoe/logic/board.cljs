@@ -1,11 +1,13 @@
 (ns tictactoe.logic.board
   (:require
+    [cljs.spec :as s :include-macros true]
     [tictactoe.logic.constants :as cst]
     [tictactoe.utils.algo :as algo]))
 
-;; TODO - Add spec?
-;; TODO - Defrecord?
-;; TODO - Concentrate on the turn, no need to show the all board implementation
+(s/def ::pos #(and (integer? %) (< % cst/board-size)))
+(s/def ::coord (s/tuple ::pos ::pos))
+(s/def ::owner #{:cell/circle :cell/empty :cell/cross})
+(s/def ::board (s/map-of ::coord ::owner))
 
 (defn new-empty-board
   []
