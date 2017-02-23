@@ -24,5 +24,6 @@
   (into
     (utils/square-svg-panel board)
     (for [[cell-pos cell-owner] (board/get-cells board)]
-      [render-one-cell cell-owner cell-pos {:on-click #(on-move-event cell-pos)}]
+      [render-one-cell cell-owner cell-pos
+       {:on-click #(on-move-event cell-pos)}]
       )))
