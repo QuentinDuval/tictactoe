@@ -14,5 +14,5 @@
   [str-code]
   [:div {:dangerouslySetInnerHTML {:__html str-code}}])
 
-(def back-arrow (special-char "&larr;"))
-(def circle-arrow (special-char "&#x21bb;"))
+(defn back-arrow [] (special-char "&larr;"))
+(defn circle-arrow [] (special-char "&#x21bb;"))

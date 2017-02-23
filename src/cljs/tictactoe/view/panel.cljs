@@ -14,7 +14,7 @@
    * The undo button"
   [{:keys [on-restart-event on-undo-event]}]
   [:div.scores
-   [make-button on-restart-event utils/circle-arrow]
+   [make-button on-restart-event (utils/circle-arrow)]
    [:h1#title "Tic Tac Toe"]
-   [make-button on-undo-event utils/back-arrow]
+   [make-button on-undo-event (utils/back-arrow)]
    ])
