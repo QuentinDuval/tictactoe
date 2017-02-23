@@ -26,7 +26,7 @@
   {:board (board/new-empty-board)
    :player :cell/cross})
 
-(defn game-over?                                            ;; TODO - Applies on board, not turn... fails the unit test
+(defn game-over?
   [{:keys [board]}]
   (or
     (board/full-board? board)
