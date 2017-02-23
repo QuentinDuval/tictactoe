@@ -1,13 +1,8 @@
 (ns tictactoe.test-runner
   (:require
-    [doo.runner :refer-macros [doo-tests]]
-    [tictactoe.common-test]
+    [cljs.test :refer-macros [run-tests]]
     [tictactoe.game-test]
     ))
 
-(enable-console-print!)
-
-(doo-tests
-  'tictactoe.game-test
-  'tictactoe.common-test
-  )
+(run-tests
+  'tictactoe.game-test)
