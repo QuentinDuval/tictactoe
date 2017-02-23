@@ -10,8 +10,8 @@
 
 (defn current-turn
   "Access the current turn"
-  [game]
-  (peek game))
+  [game-state]
+  (peek game-state))
 
 (defn play-move
   "On reception of the move command"
