@@ -37,9 +37,9 @@
    :player :cell/cross})
 
 (defn game-over?
-  "The game is over if:
+  "The game is over if either:
    * The board is full
-   * Or there is a winner"
+   * There is a winner"
   [{:keys [board]}]
   (or
     (board/full-board? board)
