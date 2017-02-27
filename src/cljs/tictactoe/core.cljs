@@ -5,7 +5,6 @@
     [tictactoe.store :as store]))
 
 
-;; TODO - Add message to indicate winner
 ;; TODO - Add ready unit tests
 ;; TODO - Move constants and board - hidden in logic
 
