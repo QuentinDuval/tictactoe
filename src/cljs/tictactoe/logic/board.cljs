@@ -28,14 +28,5 @@
   [board]
   (not-any? #{:cell/empty} (map second board)))
 
-(defn same-owner?
-  "Indicates whether all positions are owned by the same player"
-  [board positions]
-  (let [owners (algo/get-all board positions)]
-    (and
-      (not-any? #{:cell/empty} owners)
-      (= 1 (count (set owners)))
-      )))
-
 (defn get-size [_] cst/board-size)
 (defn get-cells [board] board)

@@ -11,9 +11,18 @@
 (defn- next-player [current]
   (if (= :cell/cross current) :cell/circle :cell/cross))
 
+(defn- same-owner?
+  "Indicates whether all positions are owned by the same player"
+  [board positions]
+  (let [owners (set (map #(get board %) positions))]
+    (and
+      (not (owners :cell/empty))
+      (= 1 (count owners))
+      )))
+
 (defn- has-winner?
   [board]
-  (some #(board/same-owner? board %) cst/lines))
+  (some #(same-owner? board %) cst/lines))
 
 
 ;; --------------------------------------------------------
