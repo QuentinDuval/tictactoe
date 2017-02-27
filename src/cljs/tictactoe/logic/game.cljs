@@ -7,29 +7,28 @@
   [turn/start-turn])
 
 (defn current-turn
-  [game-state]
-  (peek game-state))
+  [game]
+  (peek game))
 
 (defn play-move
   "On reception of the move command"
-  [game-state [x y]]
-  (let [current (current-turn game-state)]
-    (if-let [next-turn (turn/play-move current x y)]
-      (conj game-state next-turn)
-      game-state)))
+  [game [x y]]
+  (if-let [next-turn (turn/play-move (current-turn game) x y)]
+    (conj game next-turn)
+    game))
 
 (defn undo-last-move
   "Remove the last game if there is enough game played"
-  [game-state]
-  (if (< 1 (count game-state))
-    (pop game-state)
-    game-state))
+  [game]
+  (if (< 1 (count game))
+    (pop game)
+    game))
 
 (defn handle-event
   "Callback to dispath the event on the game"
-  [game-state event]
+  [game event]
   (cond
     (= event :restart) (new-game)
-    (= event :undo) (undo-last-move game-state)
-    :else (play-move game-state event)
+    (= event :undo) (undo-last-move game)
+    :else (play-move game event)
     ))
