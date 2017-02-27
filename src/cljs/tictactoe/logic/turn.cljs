@@ -48,7 +48,7 @@
 (defn valid-move?
   "A move if valid if the target cell is empty"
   [turn x y]
-  (board/empty-cell? (:board turn) x y))
+  (board/has-owner? (:board turn) x y))
 
 (defn play-move
   "Convert a cell to the player color and switch player"

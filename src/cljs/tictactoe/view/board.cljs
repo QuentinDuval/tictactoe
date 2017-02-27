@@ -22,6 +22,6 @@
   [board {:keys [on-move-event]}]
   (into
     (utils/square-svg-panel board)
-    (for [[coord owner] (board/get-cells board)]
+    (for [[coord owner] (board/get-owners-by-coord board)]
       [render-cell owner coord on-move-event]
       )))

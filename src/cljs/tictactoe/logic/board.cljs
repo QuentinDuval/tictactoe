@@ -18,7 +18,7 @@
   [board player x y]
   (assoc board [x y] player))
 
-(defn empty-cell?
+(defn has-owner?
   "Check whether the cell [x y] is empty"
   [board x y]
   (= (get board [x y]) :cell/empty))
@@ -29,4 +29,4 @@
   (not-any? #{:cell/empty} (map second board)))
 
 (defn get-size [_] cst/board-size)
-(defn get-cells [board] board)
+(defn get-owners-by-coord [board] board)
