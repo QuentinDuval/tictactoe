@@ -9,7 +9,9 @@
 ;; --------------------------------------------------------
 
 (defn- next-player [current]
-  (if (= :cell/cross current) :cell/circle :cell/cross))
+  (if (= :cell/cross current)
+    :cell/circle
+    :cell/cross))
 
 (defn- same-owner?
   "Indicates whether all positions are owned by the same player"
@@ -21,6 +23,7 @@
       )))
 
 (defn- has-winner?
+  "There is a winner if some winning line is owned by the same player"
   [board]
   (some #(same-owner? board %) cst/lines))
 
@@ -34,14 +37,23 @@
    :player :cell/cross})
 
 (defn game-over?
+  "The game is over if:
+   * The board is full
+   * Or there is a winner"
   [{:keys [board]}]
   (or
     (board/full-board? board)
     (has-winner? board)))
 
-(defn play-move
+(defn valid-move?
+  "A move if valid if the target cell is empty"
   [turn x y]
-  (if (and (board/empty-cell? (:board turn) x y) (not (game-over? turn)))
+  (board/empty-cell? (:board turn) x y))
+
+(defn play-move
+  "Convert a cell to the player color and switch player"
+  [turn x y]
+  (if (and (valid-move? turn x y) (not (game-over? turn)))
     (-> turn
       (update :board board/convert-cell (:player turn) x y)
       (update :player next-player))))
