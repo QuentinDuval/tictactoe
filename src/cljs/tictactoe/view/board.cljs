@@ -9,9 +9,9 @@
   "Dispatch the rendering of the cell based on the player"
   [type coord on-move-event]
   (let [renderer (case type
-                   :cell/empty cell/render-square
-                   :cell/cross cell/render-cross
-                   :cell/circle cell/render-circle)]
+                   :owner/none cell/render-square
+                   :owner/cross cell/render-cross
+                   :owner/circle cell/render-circle)]
     (renderer coord {:on-click #(on-move-event coord)})))
 
 

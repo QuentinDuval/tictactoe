@@ -44,7 +44,7 @@
 
 (defn count-empty-cells
   [game-state]
-  (count-cells :cell/empty game-state))
+  (count-cells :owner/none game-state))
 
 (defn play-moves
   [init-game moves]
@@ -114,10 +114,10 @@
 ;; The following are all bad ideas to base our game generation upon
 
 (def player-gen
-  (gen/elements #{:cell/cross :cell/circle}))
+  (gen/elements #{:owner/cross :owner/circle}))
 
 (def cell-gen
-  (gen/elements #{:cell/empty :cell/cross :cell/circle}))
+  (gen/elements #{:owner/none :owner/cross :owner/circle}))
 
 (def board-gen
   (apply gen/hash-map
@@ -139,7 +139,7 @@
         old-board (get-board old-game)]
     (and
       (not= old-player new-player)
-      (= :cell/empty (get old-board move))
+      (= :owner/none (get old-board move))
       (= old-player (get new-board move))
       (= (dissoc old-board move) (dissoc new-board move))
       )))

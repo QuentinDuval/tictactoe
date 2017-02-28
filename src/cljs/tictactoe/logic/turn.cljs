@@ -9,16 +9,16 @@
 ;; --------------------------------------------------------
 
 (defn- next-player [current]
-  (if (= :cell/cross current)
-    :cell/circle
-    :cell/cross))
+  (if (= :owner/cross current)
+    :owner/circle
+    :owner/cross))
 
 (defn- same-owner?
   "Indicates whether all positions are owned by the same player"
   [board positions]
   (let [owners (set (map #(get board %) positions))]
     (and
-      (not (owners :cell/empty))
+      (not (owners :owner/none))
       (= 1 (count owners))
       )))
 
@@ -34,7 +34,7 @@
 
 (def start-turn
   {:board (board/new-empty-board)
-   :player :cell/cross})
+   :player :owner/cross})
 
 (defn game-over?
   "The game is over if either:
