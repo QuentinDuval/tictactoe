@@ -23,4 +23,3 @@
   (not-any? #{:owner/none} (vals board)))
 
 (defn get-size [_] cst/board-size)
-(defn get-owners-by-coord [board] board)

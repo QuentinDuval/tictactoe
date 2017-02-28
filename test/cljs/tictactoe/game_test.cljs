@@ -1,4 +1,4 @@
-(ns ^:figwheel-always tictactoe.game-test
+(ns tictactoe.game-test
   (:require-macros
     [cljs.test :refer (is deftest testing)]
     [clojure.test.check.clojure-test :refer [defspec]]

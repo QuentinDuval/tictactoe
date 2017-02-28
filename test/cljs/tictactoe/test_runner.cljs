@@ -1,4 +1,4 @@
-(ns ^:figwheel-always tictactoe.test-runner
+(ns tictactoe.test-runner
   (:require
     [cljs.test :refer-macros [run-all-tests]]
     ))
