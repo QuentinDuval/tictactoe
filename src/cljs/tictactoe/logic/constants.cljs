@@ -16,4 +16,4 @@
 
 (def rows (partition board-size coordinates))
 (def cols (algo/transpose rows))
-(def lines (concat rows cols diags))
+(def winning-cell-sets (concat rows cols diags))

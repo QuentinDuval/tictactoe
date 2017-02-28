@@ -12,7 +12,7 @@
   [board player x y]
   (assoc board [x y] player))
 
-(defn has-owner?
+(defn has-no-owner?
   "Check whether the cell [x y] is empty"
   [board x y]
   (= (get board [x y]) :owner/none))

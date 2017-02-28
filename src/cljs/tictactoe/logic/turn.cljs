@@ -18,14 +18,14 @@
   [board positions]
   (let [owners (set (map #(get board %) positions))]
     (and
-      (not (owners :owner/none))
-      (= 1 (count owners))
-      )))
+      (not= :owner/none (first owners))
+      (= 1 (count owners)))
+    ))
 
 (defn- has-winner?
   "There is a winner if some winning line is owned by the same player"
   [board]
-  (some #(same-owner? board %) cst/lines))
+  (some #(same-owner? board %) cst/winning-cell-sets))
 
 
 ;; --------------------------------------------------------
@@ -48,12 +48,12 @@
 (defn valid-move?
   "A move if valid if the target cell is empty"
   [turn x y]
-  (board/has-owner? (:board turn) x y))
+  (board/has-no-owner? (:board turn) x y))
 
-(defn play-move
+(defn next-turn
   "Convert a cell to the player color and switch player"
   [turn x y]
   (if (and (valid-move? turn x y) (not (game-over? turn)))
-    (-> turn
-      (update :board board/convert-cell (:player turn) x y)
-      (update :player next-player))))
+    (update
+      (update turn :board board/convert-cell (:player turn) x y)
+      :player next-player)))
