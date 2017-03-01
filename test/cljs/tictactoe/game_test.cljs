@@ -18,6 +18,8 @@
 ;; Utils for the tests
 ;; ----------------------------------------------------------------------------
 
+(def cell-count (count cst/coordinates))
+
 (defn get-player
   [game-state]
   (get (logic/current-turn game-state) :player))
@@ -60,7 +62,7 @@
     (testing "New game is not over yet"
       (is (not (game-over? init-game))))
     (testing "All cells are empty"
-      (is (= cst/cell-count (count-empty-cells init-game))))
+      (is (= cell-count (count-empty-cells init-game))))
     ))
 
 (deftest test-game-over
@@ -69,7 +71,7 @@
     (testing "Playing all coordinates results in game over"
       (is (game-over? end-game)))
     (testing "To be game over, some cells have to be taken"
-      (is (> cst/cell-count (count-empty-cells end-game))))
+      (is (> cell-count (count-empty-cells end-game))))
     ))
 
 (deftest test-undo-all
@@ -108,7 +110,7 @@
 (def game-gen
   (gen/fmap
     #(play-moves (logic/new-game) %)
-    (gen/vector move-gen 0 cst/cell-count)
+    (gen/vector move-gen 0 cell-count)
     ))
 
 ;; The following are all bad ideas to base our game generation upon

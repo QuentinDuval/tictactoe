@@ -8,10 +8,6 @@
 (def coordinates
   (for [x (range board-size) y (range board-size)] [x y]))
 
-(def coordinate? (set coordinates))
-
-(def cell-count (count coordinates))
-
 (def winning-diags
   [(filter #(= (first %) (second %)) coordinates)
    (filter #(= (dec board-size) (reduce + %)) coordinates)])
