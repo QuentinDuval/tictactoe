@@ -1,19 +1,13 @@
-(ns tictactoe.view.svg.utils
-  (:require
-    [tictactoe.view.svg.constants :as cst]
-    [tictactoe.logic.constants :as game-cst]
-    ))
+(ns tictactoe.view.svg.utils)
 
 
-(defn in-square-svg-panel
-  [cells]
-  (let [pixel-size cst/board-pixel-size
-        model-size game-cst/board-size]
-    (into
-      [:svg.board
-       {:view-box (str "0 0 " model-size " " model-size)
-        :style {:max-height (str pixel-size "px")}}]
-      cells)))
+(defn square-svg-panel
+  [{:keys [pixel-size model-size]} cells]
+  (into
+    [:svg.board
+     {:view-box (str "0 0 " model-size " " model-size)
+      :style {:max-height (str pixel-size "px")}}]
+    cells))
 
 (defn- special-char
   [str-code]
