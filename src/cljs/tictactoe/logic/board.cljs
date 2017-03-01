@@ -19,17 +19,17 @@
   {:pre [(coordinates? coord)]}
   (get board coord))
 
-(defn is-cell-owned?
-  "Check whether the cell [x y] is empty"
-  [board x y]
-  (not= (get-owner-at board [x y]) :owner/none))
+(defn has-owner?
+  "Check whether the coord has an owner associated to it"
+  [board coord]
+  (not= (get-owner-at board coord) :owner/none))
 
 (defn convert-cell
   "Assign the cell [x y] to a new player"
-  [board player x y]
-  {:pre [(coordinates? [x y])
-         (not (is-cell-owned? board x y))]}
-  (assoc board [x y] player))
+  [board player coord]
+  {:pre [(coordinates? coord)
+         (not (has-owner? board coord))]}
+  (assoc board coord player))
 
 (defn full-board?
   "Verifies whether the board has any empty cell left"

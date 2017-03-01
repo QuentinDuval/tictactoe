@@ -12,8 +12,8 @@
 
 (defn play-move
   "On reception of the move command"
-  [game [x y]]
-  (if-let [new-turn (turn/next-turn (current-turn game) x y)]
+  [game coord]
+  (if-let [new-turn (turn/next-turn (current-turn game) coord)]
     (conj game new-turn)
     game))
 

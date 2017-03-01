@@ -37,8 +37,8 @@
 
 (defn- invalid-move?
   "A move if valid if the target cell is empty"
-  [turn x y]
-  (board/is-cell-owned? (:board turn) x y))
+  [turn coord]
+  (board/has-owner? (:board turn) coord))
 
 
 ;; --------------------------------------------------------
@@ -60,8 +60,8 @@
 
 (defn next-turn
   "Convert a cell to the player color and switch player"
-  [turn x y]
-  (if-not (or (game-over? turn) (invalid-move? turn x y))
+  [turn coord]
+  (if-not (or (game-over? turn) (invalid-move? turn coord))
     (update
-      (update turn :board board/convert-cell (:player turn) x y)
+      (update turn :board board/convert-cell (:player turn) coord)
       :player next-player)))
