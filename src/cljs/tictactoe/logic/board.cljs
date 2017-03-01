@@ -22,6 +22,7 @@
 (defn has-owner?
   "Check whether the coord has an owner associated to it"
   [board coord]
+  {:pre [(coordinates? coord)]}
   (not= (get-owner-at board coord) :owner/none))
 
 (defn convert-cell
