@@ -44,10 +44,9 @@
 
 (defn render-cell
   "Dispatch the rendering of the cell based on the player"
-  [[coord owner :as cell] on-move-event]
-  (let [renderer
-        (case owner
-          :owner/cross render-cross
-          :owner/circle render-circle
-          render-square)]
-    (renderer coord {:on-click #(on-move-event coord)})))
+  [[coord owner :as cell] on-move]
+  (let [renderer (case owner
+                   :owner/cross render-cross
+                   :owner/circle render-circle
+                   render-square)]
+    (renderer coord {:on-click #(on-move coord)})))
