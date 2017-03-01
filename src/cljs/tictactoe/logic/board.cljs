@@ -1,7 +1,10 @@
 (ns tictactoe.logic.board
   (:require
-    [tictactoe.logic.constants :as cst]
-    ))
+    [tictactoe.logic.constants :as cst]))
+
+
+;; TODO - investigate the possibility to have a truely empty board
+;; TODO - full-board? would be a check of coordinates vs keys of map
 
 (def empty-board
   "The empty board"
@@ -15,7 +18,8 @@
 (defn convert-cell
   "Assign the cell [x y] to a new player"
   [board player x y]
-  (assoc board [x y] player))
+  (if (cst/coordinate? [x y])
+    (assoc board [x y] player)))
 
 (defn has-no-owner?
   "Check whether the cell [x y] is empty"

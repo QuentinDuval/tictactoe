@@ -83,11 +83,11 @@
 (deftest test-winning-line
   (doseq [i (range (dec cst/board-size))]
     (testing "If each player plays one row, the first player will win"
-      (let [hor-moves (interleave (nth cst/rows i) (nth cst/rows (inc i)))
+      (let [hor-moves (interleave (nth cst/winning-rows i) (nth cst/winning-rows (inc i)))
             end-game (play-moves (logic/new-game) hor-moves)]
         (is (game-over? end-game))))
     (testing "If each player plays one column, the first player will win"
-      (let [ver-moves (interleave (nth cst/cols i) (nth cst/cols (inc i)))
+      (let [ver-moves (interleave (nth cst/winning-lines i) (nth cst/winning-lines (inc i)))
             game-2 (play-moves (logic/new-game) ver-moves)]
         (is (game-over? game-2))))))
 
