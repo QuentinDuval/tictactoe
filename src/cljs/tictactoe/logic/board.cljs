@@ -15,20 +15,15 @@
   [_]
   cst/board-size)
 
-(def valid-coordinate?
-  "Indicate if a coordinate is inside the board"
-  (set cst/coordinates))
-
 (defn convert-cell
   "Assign the cell [x y] to a new player"
   [board player x y]
-  (if (valid-coordinate? [x y])
-    (assoc board [x y] player)))
+  (assoc board [x y] player))
 
-(defn has-no-owner?
+(defn is-cell-owned?
   "Check whether the cell [x y] is empty"
   [board x y]
-  (= (get board [x y]) :owner/none))
+  (not= (get board [x y]) :owner/none))
 
 (defn full-board?
   "Verifies whether the board has any empty cell left"

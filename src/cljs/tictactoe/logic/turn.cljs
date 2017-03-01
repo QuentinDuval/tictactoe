@@ -25,6 +25,11 @@
   [board]
   (some #(same-owner? board %) cst/winning-cell-sets))
 
+(defn- invalid-move?
+  "A move if valid if the target cell is empty"
+  [turn x y]
+  (board/is-cell-owned? (:board turn) x y))
+
 
 ;; --------------------------------------------------------
 ;; Game logic (public)
@@ -43,16 +48,10 @@
     (board/full-board? board)
     (has-winner? board)))
 
-;; TODO - Valid should also check for the position?
-(defn valid-move?
-  "A move if valid if the target cell is empty"
-  [turn x y]
-  (board/has-no-owner? (:board turn) x y))
-
 (defn next-turn
   "Convert a cell to the player color and switch player"
   [turn x y]
-  (if (and (not (game-over? turn)) (valid-move? turn x y))
+  (if-not (or (game-over? turn) (invalid-move? turn x y))
     (update
       (update turn :board board/convert-cell (:player turn) x y)
       :player next-player)))

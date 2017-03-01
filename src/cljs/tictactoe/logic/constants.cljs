@@ -6,7 +6,9 @@
 (def board-size 3)
 
 (def coordinates
-  (for [x (range board-size) y (range board-size)] [x y]))
+  (for [x (range board-size)
+        y (range board-size)]
+    [x y]))
 
 (def winning-diags
   [(filter #(= (first %) (second %)) coordinates)
