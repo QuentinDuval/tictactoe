@@ -14,7 +14,7 @@
 (defn- same-owner?
   "Indicates whether all positions are owned by the same player"
   [board positions]
-  (let [owners (set (map #(get board %) positions))]
+  (let [owners (set (map #(get-owner-at board %) positions))]
     (or
       (= owners #{:owner/circle})
       (= owners #{:owner/cross})

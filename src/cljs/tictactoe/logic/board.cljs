@@ -6,27 +6,22 @@
 ;; TODO - investigate the possibility to have a truely empty board
 ;; TODO - full-board? would be a check of coordinates vs keys of map
 
-(def empty-board
-  "The empty board"
-  (zipmap cst/coordinates (repeat :owner/none)))
-
-(defn get-size
-  "The size of the square board"
-  [_]
-  cst/board-size)
-
+(def empty-board (zipmap cst/coordinates (repeat :owner/none)))
+(defn get-size [_] cst/board-size)
 (def valid-coordinate? (set cst/coordinates))
-
-(defn convert-cell
-  "Assign the cell [x y] to a new player"
-  [board player x y]
-  {:pre [(valid-coordinate? [x y])]}
-  (assoc board [x y] player))
+(def get-owner-at get)
 
 (defn is-cell-owned?
   "Check whether the cell [x y] is empty"
   [board x y]
-  (not= (get board [x y]) :owner/none))
+  (not= (get-owner-at board [x y]) :owner/none))
+
+(defn convert-cell
+  "Assign the cell [x y] to a new player"
+  [board player x y]
+  {:pre [(valid-coordinate? [x y])
+         (not (is-cell-owned? board x y))]}
+  (assoc board [x y] player))
 
 (defn full-board?
   "Verifies whether the board has any empty cell left"
