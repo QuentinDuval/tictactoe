@@ -13,8 +13,8 @@
 (defn play-move
   "On reception of the move command"
   [game [x y]]
-  (if-let [next-turn (turn/next-turn (current-turn game) x y)]
-    (conj game next-turn)
+  (if-let [new-turn (turn/next-turn (current-turn game) x y)]
+    (conj game new-turn)
     game))
 
 (defn undo-last-move

@@ -44,7 +44,7 @@
 
 (defn render-cell
   "Dispatch the rendering of the cell based on the player"
-  [[coord owner] on-move-event]
+  [[coord owner :as cell] on-move-event]
   (let [renderer
         (case owner
           :owner/cross render-cross

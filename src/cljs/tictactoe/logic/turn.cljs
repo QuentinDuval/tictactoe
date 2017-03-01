@@ -16,9 +16,9 @@
   [board positions]
   (let [owners (set (map #(get board %) positions))]
     (or
-      (= #{:owner/circle} owners)
-      (= #{:owner/cross} owners))
-    ))
+      (= owners #{:owner/circle})
+      (= owners #{:owner/cross})
+      )))
 
 (defn- has-winner?
   "There is a winner if some winning line is owned by the same player"
@@ -52,7 +52,7 @@
 (defn next-turn
   "Convert a cell to the player color and switch player"
   [turn x y]
-  (if (and (valid-move? turn x y) (not (game-over? turn)))
+  (if (and (not (game-over? turn)) (valid-move? turn x y))
     (update
       (update turn :board board/convert-cell (:player turn) x y)
       :player next-player)))

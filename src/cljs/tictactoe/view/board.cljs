@@ -14,5 +14,6 @@
   (utils/square-svg-panel
     {:model-size (board/get-size board)
      :pixel-size cst/board-pixel-size}
-    (map (fn [cell] [cell/render-cell cell on-move-event]) board)
-    ))
+    (map
+      (fn [cell] [cell/render-cell cell on-move-event])
+      board)))
