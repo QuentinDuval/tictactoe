@@ -9,9 +9,7 @@
 ;; --------------------------------------------------------
 
 (defn- next-player [current]
-  (if (= :owner/cross current)
-    :owner/circle
-    :owner/cross))
+  (if (= :owner/cross current) :owner/circle :owner/cross))
 
 (defn- same-owner?
   "Indicates whether all positions are owned by the same player"
