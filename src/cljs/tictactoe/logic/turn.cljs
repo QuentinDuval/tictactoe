@@ -62,6 +62,6 @@
   "Convert a cell to the player color and switch player"
   [turn coord]
   (if-not (or (game-over? turn) (invalid-move? turn coord))
-    (update
-      (update turn :board board/convert-cell (:player turn) coord)
-      :player next-player)))
+    (-> turn
+      (update :board board/convert-cell (:player turn) coord)
+      (update :player next-player))))
