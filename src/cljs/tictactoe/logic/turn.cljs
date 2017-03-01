@@ -15,9 +15,9 @@
   "Indicates whether all positions are owned by the same player"
   [board positions]
   (let [owners (set (map #(get board %) positions))]
-    (and
-      (not= :owner/none (first owners))
-      (= 1 (count owners)))
+    (or
+      (= #{:owner/circle} owners)
+      (= #{:owner/cross} owners))
     ))
 
 (defn- has-winner?
