@@ -12,7 +12,7 @@
    * Render the cells in it"
   [board {:keys [on-move]}]
   (utils/square-svg-panel
-    {:model-size (board/get-size board)
+    {:model-size board/size
      :pixel-size cst/board-pixel-size}
     (for [cell board]
       [cell/render-cell cell on-move]

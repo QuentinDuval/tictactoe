@@ -1,11 +1,21 @@
 (ns tictactoe.logic.turn
   (:require
     [tictactoe.logic.board :as board]
-    [tictactoe.logic.constants :as cst]))
+    [tictactoe.utils.algo :as algo]))
 
 
 ;; --------------------------------------------------------
 ;; Game logic (private)
+;; --------------------------------------------------------
+
+(def winning-diags
+  [(filter #(= (first %) (second %)) board/coordinates)
+   (filter #(= (dec board/size) (reduce + %)) board/coordinates)])
+
+(def winning-rows (partition board/size board/coordinates))
+(def winning-lines (algo/transpose winning-rows))
+(def winning-cell-sets (concat winning-rows winning-lines winning-diags))
+
 ;; --------------------------------------------------------
 
 (defn- next-player [current]
@@ -14,7 +24,7 @@
 (defn- same-owner?
   "Indicates whether all positions are owned by the same player"
   [board positions]
-  (let [owners (set (map #(get-owner-at board %) positions))]
+  (let [owners (set (map #(board/get-owner-at board %) positions))]
     (or
       (= owners #{:owner/circle})
       (= owners #{:owner/cross})
@@ -23,7 +33,7 @@
 (defn- has-winner?
   "There is a winner if some winning line is owned by the same player"
   [board]
-  (some #(same-owner? board %) cst/winning-cell-sets))
+  (some #(same-owner? board %) winning-cell-sets))
 
 (defn- invalid-move?
   "A move if valid if the target cell is empty"

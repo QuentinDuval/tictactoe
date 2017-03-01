@@ -1,15 +1,23 @@
-(ns tictactoe.logic.board
-  (:require
-    [tictactoe.logic.constants :as cst]))
+(ns tictactoe.logic.board)
 
 
 ;; TODO - investigate the possibility to have a truely empty board
 ;; TODO - full-board? would be a check of coordinates vs keys of map
 
-(def empty-board (zipmap cst/coordinates (repeat :owner/none)))
-(defn get-size [_] cst/board-size)
-(def valid-coordinate? (set cst/coordinates))
-(def get-owner-at get)
+(def size "The size of the board" 3)
+
+(def coordinates
+  "All the valid coordinates on the board"
+  (for [x (range size) y (range size)] [x y]))
+
+(def coordinates? (set coordinates))
+(def empty-board (zipmap coordinates (repeat :owner/none)))
+
+(defn get-owner-at
+  "Get the owner associated to the cell"
+  [board coord]
+  {:pre [(coordinates? coord)]}
+  (get board coord))
 
 (defn is-cell-owned?
   "Check whether the cell [x y] is empty"
@@ -19,7 +27,7 @@
 (defn convert-cell
   "Assign the cell [x y] to a new player"
   [board player x y]
-  {:pre [(valid-coordinate? [x y])
+  {:pre [(coordinates? [x y])
          (not (is-cell-owned? board x y))]}
   (assoc board [x y] player))
 
