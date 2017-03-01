@@ -15,9 +15,12 @@
   [_]
   cst/board-size)
 
+(def valid-coordinate? (set cst/coordinates))
+
 (defn convert-cell
   "Assign the cell [x y] to a new player"
   [board player x y]
+  {:pre [(valid-coordinate? [x y])]}
   (assoc board [x y] player))
 
 (defn is-cell-owned?
