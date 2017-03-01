@@ -3,9 +3,14 @@
     [tictactoe.logic.constants :as cst]
     ))
 
-(defn new-empty-board
-  []
+(def empty-board
+  "The empty board"
   (zipmap cst/coordinates (repeat :owner/none)))
+
+(defn get-size
+  "The size of the square board"
+  [_]
+  cst/board-size)
 
 (defn convert-cell
   "Assign the cell [x y] to a new player"
@@ -21,5 +26,3 @@
   "Verifies whether the board has any empty cell left"
   [board]
   (not-any? #{:owner/none} (vals board)))
-
-(defn get-size [_] cst/board-size)

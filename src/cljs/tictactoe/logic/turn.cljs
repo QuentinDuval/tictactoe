@@ -33,7 +33,7 @@
 ;; --------------------------------------------------------
 
 (def start-turn
-  {:board (board/new-empty-board)
+  {:board board/empty-board
    :player :owner/cross})
 
 (defn game-over?
