@@ -43,6 +43,7 @@
     (board/full-board? board)
     (has-winner? board)))
 
+;; TODO - Valid should also check for the position?
 (defn valid-move?
   "A move if valid if the target cell is empty"
   [turn x y]
