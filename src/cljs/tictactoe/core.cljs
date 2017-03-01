@@ -14,9 +14,9 @@
    * the game view"
   []
   [frame/render @store/current-turn
-   {:on-restart-event #(store/send-event! :restart)
-    :on-undo-event #(store/send-event! :undo)
-    :on-move-event #(store/send-event! %)}])
+   {:on-restart #(store/send-event! :restart)
+    :on-undo #(store/send-event! :undo)
+    :on-move #(store/send-event! %)}])
 
 (reagent/render [tic-tac-toe]
   (js/document.getElementById "app"))

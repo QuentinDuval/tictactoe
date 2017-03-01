@@ -10,10 +10,10 @@
   "Render the board:
    * Creates a SVG panel
    * Render the cells in it"
-  [board {:keys [on-move-event]}]
+  [board {:keys [on-move]}]
   (utils/square-svg-panel
     {:model-size (board/get-size board)
      :pixel-size cst/board-pixel-size}
     (for [cell board]
-      [cell/render-cell cell on-move-event]
+      [cell/render-cell cell on-move]
       )))
