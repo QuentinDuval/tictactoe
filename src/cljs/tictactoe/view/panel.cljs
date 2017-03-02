@@ -1,12 +1,8 @@
 (ns tictactoe.view.panel
   (:require
-    [tictactoe.logic.turn :as turn]
+    [tictactoe.view.title :as title]
     [tictactoe.view.svg.utils :as utils]))
 
-
-(defn- get-title
-  [turn]
-  (if (turn/game-over? turn) "Game over" "Tic Tac Toe"))
 
 (defn- make-button
   [on-click txt]
@@ -20,6 +16,6 @@
   [turn {:keys [on-restart on-undo]}]
   [:div.scores
    [make-button on-restart utils/circle-arrow]
-   [:h1#title (get-title turn)]
+   [:h1#title (title/get-title turn)]
    [make-button on-undo utils/back-arrow]
    ])

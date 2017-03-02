@@ -21,16 +21,14 @@
 (defn- next-player [current]
   (if (= :owner/cross current) :owner/circle :owner/cross))
 
-(defn- same-owner?
+(defn- sole-owner
   "Indicates whether all positions are owned by the same player"
   [board positions]
   (let [owners (set (map #(board/get-owner-at board %) positions))]
-    (contains? #{#{:owner/circle} #{:owner/cross}} owners)))
-
-(defn- has-winner?
-  "There is a winner if some winning line is owned by the same player"
-  [board]
-  (some #(same-owner? board %) winning-cell-sets))
+    (case owners
+      #{:owner/circle} :owner/circle
+      #{:owner/cross} :owner/cross
+      nil)))
 
 (defn- invalid-move?
   "A move if valid if the target cell is empty"
@@ -46,14 +44,19 @@
   {:board board/empty-board
    :player :owner/cross})
 
+(defn get-winner
+  "Return the winner, or nil if the game has none"
+  [{:keys [board]}]
+  (some #(sole-owner board %) winning-cell-sets))
+
 (defn game-over?
   "The game is over if either:
    * The board is full
    * There is a winner"
-  [{:keys [board]}]
+  [{:keys [board] :as turn}]
   (or
     (board/full-board? board)
-    (has-winner? board)))
+    (get-winner turn)))
 
 (defn next-turn
   "Convert a cell to the player color and switch player"
