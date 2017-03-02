@@ -1,4 +1,4 @@
-(ns tictactoe.view.title
+(ns tictactoe.view.svg.title
   (:require [tictactoe.logic.turn :as turn]))
 
 
