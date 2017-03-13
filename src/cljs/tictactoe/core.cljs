@@ -5,9 +5,6 @@
     [tictactoe.store :as store]))
 
 
-;; TODO - Add ready unit tests
-;; TODO - Move constants and board - hidden in logic
-
 (defn tic-tac-toe
   "Main entry point, assemble:
    * the game state
