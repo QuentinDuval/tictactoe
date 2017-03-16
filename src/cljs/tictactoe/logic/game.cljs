@@ -13,20 +13,14 @@
 (defn play-move
   "On reception of the move command"
   [game coord]
-  (if-let [new-turn (turn/next-turn (current-turn game) coord)]
-    (conj game new-turn)
-    game))
+  game)
 
 (defn undo-last-move
   "Remove the last game if there is enough game played"
   [game]
-  (if (< 1 (count game)) (pop game) game))
+  game)
 
 (defn handle-event
   "Callback to dispath the event on the game"
   [game event]
-  (cond
-    (= event :restart) (new-game)
-    (= event :undo) (undo-last-move game)
-    :else (play-move game event)
-    ))
+  game)

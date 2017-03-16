@@ -21,20 +21,15 @@
 (defn- next-player [current]
   (if (= :owner/cross current) :owner/circle :owner/cross))
 
-(defn- sole-owner
-  "Indicates whether all positions are owned by the same player"
-  [board positions]
-  (let [owners (set (map #(board/get-owner-at board %) positions))]
-    (case owners
-      #{:owner/circle} :owner/circle
-      #{:owner/cross} :owner/cross
-      nil)))
-
 (defn- invalid-move?
   "A move if valid if the target cell is empty"
   [turn coord]
   (board/has-owner? (:board turn) coord))
 
+(defn- sole-owner
+  "Indicates whether all positions are owned by the same player"
+  [board positions]
+  nil)
 
 ;; --------------------------------------------------------
 ;; Game logic (public)
@@ -47,21 +42,16 @@
 (defn get-winner
   "Return the winner, or nil if the game has none"
   [{:keys [board]}]
-  (some #(sole-owner board %) winning-cell-sets))
+  nil)
 
 (defn game-over?
   "The game is over if either:
    * The board is full
    * There is a winner"
   [{:keys [board] :as turn}]
-  (or
-    (board/full-board? board)
-    (get-winner turn)))
+  false)
 
 (defn next-turn
   "Convert a cell to the player color and switch player"
   [turn coord]
-  (if-not (or (game-over? turn) (invalid-move? turn coord))
-    (-> turn
-      (update :board board/convert-cell (:player turn) coord)
-      (update :player next-player))))
+  turn)

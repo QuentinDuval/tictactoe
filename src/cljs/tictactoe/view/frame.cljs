@@ -10,5 +10,4 @@
   [{:keys [board] :as turn} callbacks]
   [:div
    [panel/render-top-panel turn callbacks]
-   [board/render-board board callbacks]
    ])

@@ -15,7 +15,5 @@
    * The undo button"
   [turn {:keys [on-restart on-undo]}]
   [:div.scores
-   [make-button on-restart utils/circle-arrow]
    [:h1#title (title/get-title turn)]
-   [make-button on-undo utils/back-arrow]
    ])
