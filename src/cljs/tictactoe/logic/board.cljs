@@ -1,9 +1,6 @@
 (ns tictactoe.logic.board)
 
 
-;; TODO - investigate the possibility to have a truely empty board
-;; TODO - full-board? would be a check of coordinates vs keys of map
-
 (def size "The size of the board" 3)
 
 (def coordinates
