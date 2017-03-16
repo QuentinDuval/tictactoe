@@ -28,8 +28,7 @@
 (defn convert-cell
   "Assign the cell [x y] to a new player"
   [board player coord]
-  {:pre [(coordinates? coord)
-         (not (has-owner? board coord))]}
+  {:pre [(coordinates? coord)]}
   (assoc board coord player))
 
 (defn full-board?
