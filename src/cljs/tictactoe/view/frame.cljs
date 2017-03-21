@@ -1,7 +1,7 @@
 (ns tictactoe.view.frame
   (:require
     [tictactoe.view.board :as board]
-    [tictactoe.view.panel :as panel]))
+    [tictactoe.view.menu :as panel]))
 
 
 (defn render
@@ -9,5 +9,5 @@
    takes as input the callbacks to trigger events"
   [{:keys [board] :as turn} callbacks]
   [:div
-   [panel/render-top-panel turn callbacks]
+   [panel/render-top-menu turn callbacks]
    ])
