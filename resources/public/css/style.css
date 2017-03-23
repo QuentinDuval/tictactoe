@@ -5,6 +5,7 @@
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   margin-left: 50px;
   margin-right: 50px;
+  font-size: 4vw;
 }
 
 .scores
@@ -24,12 +25,16 @@
     margin: 10px 1.2%;
     text-align: center;
     display: inline-block;
-    font-size: 36px;
-    font-weight: bold;
+    font-size: 4.5vw;
+    font-weight: 900;
     outline: none;
 }
 
 .top-button:hover
 {
     color: white;
+    //background-color: #c0c0c0;
+    outline-style: dotted;
+    outline-color: white;
+    outline-width: thick;
 }
