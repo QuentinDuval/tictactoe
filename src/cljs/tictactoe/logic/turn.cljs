@@ -53,5 +53,5 @@
 
 (defn next-turn
   "Convert a cell to the player color and switch player"
-  [turn coord]
+  [{:keys [player board] :as turn} coord]
   turn)
